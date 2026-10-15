@@ -10,8 +10,6 @@ export const metadata: Metadata = {
  *
  * This is a static landing page. It does not need access to the session
  * because the Navbar (a Client Component) handles the auth state display.
- *
- * The actual authenticated dashboard will be built in a future step.
  */
 export default function Home() {
   return (
@@ -40,12 +38,20 @@ export default function Home() {
             gap: "0.5rem",
             padding: "0.375rem 0.875rem",
             borderRadius: "2rem",
-            background: "rgba(99, 102, 241, 0.15)",
-            border: "1px solid rgba(99, 102, 241, 0.3)",
+            background: "var(--muted)",
+            border: "1px solid var(--border)",
             marginBottom: "1.5rem",
           }}
         >
-          <span style={{ fontSize: "0.75rem", color: "#818cf8", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+          <span
+            style={{
+              fontSize: "0.75rem",
+              color: "var(--foreground)",
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+          >
             ✦ Your personal space
           </span>
         </div>
@@ -54,13 +60,10 @@ export default function Home() {
           style={{
             fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
             fontWeight: 800,
-            lineHeight: 1.1,
+            lineHeight: 1.15,
             letterSpacing: "-0.03em",
             margin: "0 0 1.25rem",
-            background: "linear-gradient(135deg, #f1f5f9 0%, #a5b4fc 50%, #8b5cf6 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            color: "var(--foreground)",
           }}
         >
           Own your day,
@@ -71,7 +74,7 @@ export default function Home() {
         <p
           style={{
             fontSize: "1.125rem",
-            color: "rgba(241, 245, 249, 0.7)",
+            color: "var(--muted-foreground)",
             lineHeight: 1.7,
             margin: "0 0 2.5rem",
           }}
@@ -95,8 +98,19 @@ export default function Home() {
             className="hero-btn-primary"
           >
             Get Started Free
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
             </svg>
           </Link>
 
@@ -119,24 +133,28 @@ export default function Home() {
             marginTop: "3rem",
           }}
         >
-          {["✓ Daily tasks", "✓ Habit streaks", "✓ Routine builder", "✓ Progress insights"].map(
-            (feature) => (
-              <span
-                key={feature}
-                style={{
-                  fontSize: "0.8125rem",
-                  fontWeight: 500,
-                  color: "rgba(165, 180, 252, 0.9)",
-                  padding: "0.3rem 0.75rem",
-                  borderRadius: "2rem",
-                  background: "rgba(99, 102, 241, 0.1)",
-                  border: "1px solid rgba(99, 102, 241, 0.2)",
-                }}
-              >
-                {feature}
-              </span>
-            )
-          )}
+          {[
+            "✓ Daily tasks",
+            "✓ Habit streaks",
+            "✓ Routine builder",
+            "✓ Progress insights",
+          ].map((feature) => (
+            <span
+              key={feature}
+              style={{
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                color: "var(--foreground)",
+                padding: "0.35rem 0.85rem",
+                borderRadius: "2rem",
+                background: "var(--card)",
+                border: "1px solid var(--border)",
+                boxShadow: "var(--shadow-sm)",
+              }}
+            >
+              {feature}
+            </span>
+          ))}
         </div>
       </div>
     </div>

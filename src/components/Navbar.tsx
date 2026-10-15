@@ -1,28 +1,70 @@
 "use client";
 
 /**
- * Navbar component for OwnSpace.
+ * Navbar component for OwnSpace with Light/Dark Theme Toggle.
  *
  * "use client" is required because:
- *  - useSession() is a React hook (hooks only work in Client Components)
- *  - We handle click events (mobile menu toggle, sign out button)
- *
- * What this component does:
- *  1. Shows the OwnSpace brand logo.
- *  2. Shows "Sign In" and "Sign Up" links when the user is logged out.
- *  3. Shows a user avatar + dropdown menu when the user is logged in.
- *  4. Handles sign-out through Better Auth.
- *  5. Collapses into a hamburger menu on small screens.
+ *  - useSession() is a React hook
+ *  - useTheme() is a React hook from next-themes
+ *  - We handle click events (mobile menu toggle, sign out button, theme toggle)
  */
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
+import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
+
+const emptySubscribe = () => () => {};
+
+// ── Theme Toggle Component ────────────────────────────────────────────────
+function ThemeToggle({ id, className }: { id?: string; className?: string }) {
+  const { resolvedTheme, setTheme } = useTheme();
+  // useSyncExternalStore ensures client-safe mounting without cascading renders or lint errors
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
+  if (!mounted) {
+    return (
+      <button
+        id={id}
+        type="button"
+        className={`theme-toggle-btn ${className ?? ""}`}
+        aria-label="Toggle theme"
+        disabled
+        style={{ opacity: 0.6 }}
+      >
+        <span style={{ width: 18, height: 18, display: "inline-block" }} />
+      </button>
+    );
+  }
+
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <button
+      id={id}
+      type="button"
+      className={`theme-toggle-btn ${className ?? ""}`}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+    >
+      {isDark ? (
+        <Sun size={18} aria-hidden="true" />
+      ) : (
+        <Moon size={18} aria-hidden="true" />
+      )}
+    </button>
+  );
+}
 
 // ── Logo SVG ──────────────────────────────────────────────────────────────
-// A simple geometric mark that fits the brand name "OwnSpace"
 function OwnSpaceLogo() {
   return (
     <svg
@@ -98,7 +140,7 @@ export default function Navbar() {
       router.push("/");
       router.refresh(); // clears cached server components
     } catch {
-      // If sign-out fails, the user stays on the page; error is silent here.
+      // If sign-out fails, the user stays on the page
     } finally {
       setSigningOut(false);
       setDropdownOpen(false);
@@ -149,7 +191,7 @@ export default function Navbar() {
         {/* ── Desktop navigation ──────────────────────────────────────── */}
         <div
           className="desktop-nav"
-          style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+          style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
         >
           <Link
             href="/"
@@ -160,7 +202,7 @@ export default function Navbar() {
               fontWeight: 500,
               color: "var(--color-text-muted)",
               textDecoration: "none",
-              transition: "background 0.15s, color 0.15s",
+              transition: "background-color 0.15s, color 0.15s",
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.background =
@@ -187,7 +229,6 @@ export default function Navbar() {
                 borderRadius: "0.5rem",
                 background: "var(--color-surface-2)",
                 opacity: 0.5,
-                animation: "pulse 1.5s ease-in-out infinite",
               }}
             />
           )}
@@ -205,7 +246,7 @@ export default function Navbar() {
                   fontWeight: 500,
                   color: "var(--color-text-muted)",
                   textDecoration: "none",
-                  transition: "background 0.15s, color 0.15s",
+                  transition: "background-color 0.15s, color 0.15s",
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLAnchorElement).style.background =
@@ -232,8 +273,7 @@ export default function Navbar() {
                   fontWeight: 600,
                   color: "#fff",
                   textDecoration: "none",
-                  background:
-                    "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
                   boxShadow: "0 2px 8px rgba(99,102,241,0.35)",
                   transition: "transform 0.15s, box-shadow 0.15s",
                 }}
@@ -272,7 +312,7 @@ export default function Navbar() {
                   border: "1.5px solid var(--color-border)",
                   background: "transparent",
                   cursor: "pointer",
-                  transition: "background 0.15s, border-color 0.15s",
+                  transition: "background-color 0.15s, border-color 0.15s",
                   color: "var(--color-text)",
                 }}
                 onMouseEnter={(e) => {
@@ -324,7 +364,6 @@ export default function Navbar() {
               {/* Dropdown */}
               {dropdownOpen && (
                 <>
-                  {/* Backdrop to close dropdown on outside click */}
                   <div
                     style={{
                       position: "fixed",
@@ -399,7 +438,7 @@ export default function Navbar() {
                           fontSize: "0.875rem",
                           color: "var(--color-text)",
                           textDecoration: "none",
-                          transition: "background 0.15s",
+                          transition: "background-color 0.15s",
                         }}
                         onMouseEnter={(e) => {
                           (e.currentTarget as HTMLAnchorElement).style.background =
@@ -410,7 +449,6 @@ export default function Navbar() {
                             "";
                         }}
                       >
-                        {/* Home icon */}
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                         Dashboard
                       </Link>
@@ -433,7 +471,7 @@ export default function Navbar() {
                           cursor: signingOut ? "not-allowed" : "pointer",
                           width: "100%",
                           textAlign: "left",
-                          transition: "background 0.15s",
+                          transition: "background-color 0.15s",
                           opacity: signingOut ? 0.6 : 1,
                         }}
                         onMouseEnter={(e) => {
@@ -449,7 +487,6 @@ export default function Navbar() {
                         {signingOut ? (
                           <span className="spinner" style={{ borderTopColor: "var(--color-error)", borderColor: "rgba(239,68,68,0.3)" }} />
                         ) : (
-                          /* Log-out icon */
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                         )}
                         {signingOut ? "Signing out…" : "Sign Out"}
@@ -460,33 +497,38 @@ export default function Navbar() {
               )}
             </div>
           )}
+
+          {/* Theme toggle — desktop */}
+          <ThemeToggle id="desktop-theme-toggle" />
         </div>
 
-        {/* ── Mobile hamburger ─────────────────────────────────────────── */}
-        <button
-          id="mobile-menu-toggle"
-          className="mobile-only"
-          onClick={() => setMenuOpen((o) => !o)}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          style={{
-            display: "none",
-            background: "transparent",
-            border: "1.5px solid var(--color-border)",
-            borderRadius: "0.5rem",
-            padding: "0.375rem",
-            cursor: "pointer",
-            color: "var(--color-text)",
-          }}
-        >
-          {menuOpen ? (
-            /* X icon */
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          ) : (
-            /* Hamburger */
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          )}
-        </button>
+        {/* ── Mobile Right Actions (Theme Toggle + Hamburger) ─────────────── */}
+        <div className="mobile-only" style={{ display: "none", alignItems: "center", gap: "0.5rem" }}>
+          <ThemeToggle id="mobile-bar-theme-toggle" />
+          <button
+            id="mobile-menu-toggle"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            style={{
+              background: "transparent",
+              border: "1.5px solid var(--color-border)",
+              borderRadius: "0.5rem",
+              padding: "0.375rem",
+              cursor: "pointer",
+              color: "var(--color-text)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {menuOpen ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* ── Mobile menu ──────────────────────────────────────────────────── */}
@@ -575,7 +617,7 @@ export default function Navbar() {
               >
                 <UserAvatar name={user.name} image={user.image} />
                 <div>
-                  <p style={{ margin: 0, fontWeight: 600, fontSize: "0.9rem" }}>{user.name}</p>
+                  <p style={{ margin: 0, fontWeight: 600, fontSize: "0.9rem", color: "var(--color-text)" }}>{user.name}</p>
                   <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--color-text-muted)" }}>{user.email}</p>
                 </div>
               </div>
@@ -603,10 +645,27 @@ export default function Navbar() {
               </button>
             </>
           )}
+
+          {/* Theme switcher row in mobile menu */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "0.75rem 0.5rem",
+              borderTop: "1px solid var(--color-border)",
+              marginTop: "0.25rem",
+            }}
+          >
+            <span style={{ fontSize: "0.9375rem", fontWeight: 500, color: "var(--color-text)" }}>
+              Theme
+            </span>
+            <ThemeToggle id="mobile-menu-theme-toggle" />
+          </div>
         </div>
       )}
 
-      {/* Responsive style — inline since we can't use a separate CSS file here */}
+      {/* Responsive layout styles */}
       <style>{`
         @media (max-width: 640px) {
           .desktop-nav { display: none !important; }
