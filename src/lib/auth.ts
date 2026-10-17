@@ -11,23 +11,7 @@
 
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../../server/src/generated/prisma/client";
-
-// ── Prisma client setup ──────────────────────────────────────────────────────
-// We use the pg driver adapter (same pattern as your Express server/config/db.ts)
-// so that Better Auth uses the same Supabase PostgreSQL connection.
-const DATABASE_URL = process.env.DATABASE_URL;
-
-if (!DATABASE_URL) {
-    throw new Error(
-        "DATABASE_URL environment variable is not set. " +
-        "Add it to your .env file before starting the server."
-    );
-}
-
-const adapter = new PrismaPg({ connectionString: DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+import prisma from "@server/lib/prisma";
 
 // ── Better Auth configuration ────────────────────────────────────────────────
 export const auth = betterAuth({
