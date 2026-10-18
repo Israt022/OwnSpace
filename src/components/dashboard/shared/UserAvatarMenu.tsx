@@ -133,6 +133,23 @@ export default function UserAvatarMenu({ user }: UserAvatarMenuProps) {
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem", paddingTop: "0.4rem" }}>
               <Link
+                href={isAdmin ? "/" : "/"}
+                onClick={() => setOpen(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  padding: "0.5rem 0.75rem",
+                  borderRadius: "0.5rem",
+                  fontSize: "0.8125rem",
+                  color: "var(--foreground)",
+                  textDecoration: "none",
+                }}
+              >
+                <User size={15} />
+                Home
+              </Link>
+              <Link
                 href={isAdmin ? "/admin/profile" : "/dashboard/profile"}
                 onClick={() => setOpen(false)}
                 style={{
