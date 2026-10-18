@@ -128,6 +128,8 @@ export default function Navbar() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const user = session?.user;
+  const userRole = (user as unknown as { role?: string })?.role ?? "USER";
+  const isAdmin = userRole === "ADMIN";
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -218,6 +220,87 @@ export default function Navbar() {
           >
             Home
           </Link>
+
+          {/* Logged in role-based links in desktop nav */}
+          {!isPending && user && (
+            <>
+              {isAdmin ? (
+                <>
+                  <Link
+                    href="/admin"
+                    id="nav-admin-link"
+                    style={{
+                      padding: "0.4rem 0.875rem",
+                      borderRadius: "0.5rem",
+                      fontSize: "0.9375rem",
+                      fontWeight: 600,
+                      color: "var(--color-brand-500)",
+                      textDecoration: "none",
+                      transition: "background-color 0.15s",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.background =
+                        "var(--color-surface-2)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.background = "";
+                    }}
+                  >
+                    Admin Console
+                  </Link>
+                  <Link
+                    href="/dashboard?view=user"
+                    id="nav-tasks-link"
+                    style={{
+                      padding: "0.4rem 0.875rem",
+                      borderRadius: "0.5rem",
+                      fontSize: "0.9375rem",
+                      fontWeight: 500,
+                      color: "var(--color-text-muted)",
+                      textDecoration: "none",
+                      transition: "background-color 0.15s, color 0.15s",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.background =
+                        "var(--color-surface-2)";
+                      (e.currentTarget as HTMLAnchorElement).style.color =
+                        "var(--color-text)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.background = "";
+                      (e.currentTarget as HTMLAnchorElement).style.color =
+                        "var(--color-text-muted)";
+                    }}
+                  >
+                    My Tasks
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  href="/dashboard"
+                  id="nav-dashboard-link"
+                  style={{
+                    padding: "0.4rem 0.875rem",
+                    borderRadius: "0.5rem",
+                    fontSize: "0.9375rem",
+                    fontWeight: 600,
+                    color: "var(--color-brand-500)",
+                    textDecoration: "none",
+                    transition: "background-color 0.15s",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.background =
+                      "var(--color-surface-2)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "";
+                  }}
+                >
+                  Daily Tasks
+                </Link>
+              )}
+            </>
+          )}
 
           {/* Loading skeleton */}
           {isPending && (
@@ -396,24 +479,40 @@ export default function Navbar() {
                         borderBottom: "1px solid var(--color-border)",
                       }}
                     >
-                      <p
-                        style={{
-                          fontSize: "0.9rem",
-                          fontWeight: 600,
-                          color: "var(--color-text)",
-                          margin: 0,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {user.name}
-                      </p>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem" }}>
+                        <p
+                          style={{
+                            fontSize: "0.9rem",
+                            fontWeight: 600,
+                            color: "var(--color-text)",
+                            margin: 0,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {user.name}
+                        </p>
+                        <span
+                          style={{
+                            fontSize: "0.6875rem",
+                            fontWeight: 700,
+                            padding: "0.15rem 0.5rem",
+                            borderRadius: "1rem",
+                            background: isAdmin ? "rgba(99, 102, 241, 0.15)" : "var(--color-surface-2)",
+                            color: isAdmin ? "var(--color-brand-500)" : "var(--color-text-muted)",
+                            border: `1px solid ${isAdmin ? "rgba(99, 102, 241, 0.3)" : "var(--color-border)"}`,
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {userRole}
+                        </span>
+                      </div>
                       <p
                         style={{
                           fontSize: "0.8125rem",
                           color: "var(--color-text-muted)",
-                          margin: "0.125rem 0 0",
+                          margin: "0.25rem 0 0",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
@@ -425,8 +524,39 @@ export default function Navbar() {
 
                     {/* Menu items */}
                     <div style={{ padding: "0.5rem" }}>
+                      {isAdmin && (
+                        <Link
+                          href="/admin"
+                          role="menuitem"
+                          onClick={() => setDropdownOpen(false)}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.625rem",
+                            padding: "0.625rem 0.75rem",
+                            borderRadius: "0.5rem",
+                            fontSize: "0.875rem",
+                            color: "var(--color-brand-500)",
+                            fontWeight: 600,
+                            textDecoration: "none",
+                            transition: "background-color 0.15s",
+                          }}
+                          onMouseEnter={(e) => {
+                            (e.currentTarget as HTMLAnchorElement).style.background =
+                              "var(--color-surface-2)";
+                          }}
+                          onMouseLeave={(e) => {
+                            (e.currentTarget as HTMLAnchorElement).style.background =
+                              "";
+                          }}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                          Admin Console
+                        </Link>
+                      )}
+
                       <Link
-                        href="/"
+                        href={isAdmin ? "/dashboard?view=user" : "/dashboard"}
                         role="menuitem"
                         onClick={() => setDropdownOpen(false)}
                         style={{
@@ -449,8 +579,8 @@ export default function Navbar() {
                             "";
                         }}
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                        Dashboard
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        {isAdmin ? "My Daily Tasks" : "Daily Tasks Dashboard"}
                       </Link>
 
                       <button
@@ -612,15 +742,66 @@ export default function Navbar() {
                   background: "var(--color-surface-2)",
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "space-between",
                   gap: "0.75rem",
                 }}
               >
-                <UserAvatar name={user.name} image={user.image} />
-                <div>
-                  <p style={{ margin: 0, fontWeight: 600, fontSize: "0.9rem", color: "var(--color-text)" }}>{user.name}</p>
-                  <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--color-text-muted)" }}>{user.email}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                  <UserAvatar name={user.name} image={user.image} />
+                  <div>
+                    <p style={{ margin: 0, fontWeight: 600, fontSize: "0.9rem", color: "var(--color-text)" }}>{user.name}</p>
+                    <p style={{ margin: 0, fontSize: "0.8rem", color: "var(--color-text-muted)" }}>{user.email}</p>
+                  </div>
                 </div>
+                <span
+                  style={{
+                    fontSize: "0.6875rem",
+                    fontWeight: 700,
+                    padding: "0.15rem 0.5rem",
+                    borderRadius: "1rem",
+                    background: isAdmin ? "rgba(99, 102, 241, 0.15)" : "var(--color-surface-2)",
+                    color: isAdmin ? "var(--color-brand-500)" : "var(--color-text-muted)",
+                    border: `1px solid ${isAdmin ? "rgba(99, 102, 241, 0.3)" : "var(--color-border)"}`,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {userRole}
+                </span>
               </div>
+
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    padding: "0.75rem",
+                    borderRadius: "0.5rem",
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                    color: "var(--color-brand-500)",
+                    textDecoration: "none",
+                    display: "block",
+                  }}
+                >
+                  Admin Console
+                </Link>
+              )}
+
+              <Link
+                href={isAdmin ? "/dashboard?view=user" : "/dashboard"}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  padding: "0.75rem",
+                  borderRadius: "0.5rem",
+                  fontSize: "1rem",
+                  fontWeight: 500,
+                  color: "var(--color-text)",
+                  textDecoration: "none",
+                  display: "block",
+                }}
+              >
+                {isAdmin ? "My Daily Tasks" : "Daily Tasks Dashboard"}
+              </Link>
 
               <button
                 onClick={() => {

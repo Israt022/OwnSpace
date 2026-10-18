@@ -54,7 +54,8 @@ export const ModelName = {
   user: 'user',
   session: 'session',
   account: 'account',
-  verification: 'verification'
+  verification: 'verification',
+  task: 'task'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -130,6 +131,24 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const TaskScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  completed: 'completed',
+  priority: 'priority',
+  category: 'category',
+  dueDate: 'dueDate',
+  dueTime: 'dueTime',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+} as const
+
+export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
 
 
 export const SortOrder = {

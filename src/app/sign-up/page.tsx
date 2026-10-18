@@ -228,9 +228,9 @@ export default function SignUpPage() {
         return;
       }
 
-      // Step 3: Redirect on success
+      // Step 3: Redirect on success to dashboard
       setSuccessMessage("Account created! Redirecting…");
-      router.push("/");
+      router.push("/dashboard");
       router.refresh();
     } catch (err) {
       console.error("Sign up error:", err);
@@ -250,7 +250,7 @@ export default function SignUpPage() {
       // After Google auth, the user is redirected back to callbackURL.
       await signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: "/dashboard",
       });
     } catch {
       setErrors({ general: "Google sign-in failed. Please try again." });

@@ -78,7 +78,7 @@ export default function SignInPage() {
       const result = await signIn.email({
         email: email.trim().toLowerCase(),
         password,
-        callbackURL: "/", // where to redirect after login
+        callbackURL: "/dashboard", // routes through role-based dashboard router
       });
 
       if (result.error) {
@@ -98,8 +98,8 @@ export default function SignInPage() {
         return;
       }
 
-      // On success Better Auth sets the session cookie and redirects
-      router.push("/");
+      // On success Better Auth sets the session cookie and redirects to dashboard
+      router.push("/dashboard");
       router.refresh();
     } catch (err) {
       console.error("Sign in error:", err);
@@ -115,7 +115,7 @@ export default function SignInPage() {
     try {
       await signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: "/dashboard",
       });
     } catch {
       setErrors({ general: "Google sign-in failed. Please try again." });

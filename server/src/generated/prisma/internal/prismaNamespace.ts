@@ -400,7 +400,8 @@ export const ModelName = {
   user: 'user',
   session: 'session',
   account: 'account',
-  verification: 'verification'
+  verification: 'verification',
+  task: 'task'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification"
+    modelProps: "user" | "session" | "account" | "verification" | "task"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -716,6 +717,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    task: {
+      payload: Prisma.$taskPayload<ExtArgs>
+      fields: Prisma.taskFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.taskFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.taskFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        findFirst: {
+          args: Prisma.taskFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.taskFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        findMany: {
+          args: Prisma.taskFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>[]
+        }
+        create: {
+          args: Prisma.taskCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        createMany: {
+          args: Prisma.taskCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.taskCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>[]
+        }
+        delete: {
+          args: Prisma.taskDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        update: {
+          args: Prisma.taskUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        deleteMany: {
+          args: Prisma.taskDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.taskUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.taskUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>[]
+        }
+        upsert: {
+          args: Prisma.taskUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$taskPayload>
+        }
+        aggregate: {
+          args: Prisma.TaskAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTask>
+        }
+        groupBy: {
+          args: Prisma.taskGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaskGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.taskCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TaskCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -814,6 +889,24 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const TaskScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  completed: 'completed',
+  priority: 'priority',
+  category: 'category',
+  dueDate: 'dueDate',
+  dueTime: 'dueTime',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+} as const
+
+export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -890,6 +983,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TaskPriority'
+ */
+export type EnumTaskPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskPriority'>
+    
+
+
+/**
+ * Reference to a field of type 'TaskPriority[]'
+ */
+export type ListEnumTaskPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskPriority[]'>
     
 
 
@@ -1061,6 +1168,7 @@ export type GlobalOmitConfig = {
   session?: Prisma.sessionOmit
   account?: Prisma.accountOmit
   verification?: Prisma.verificationOmit
+  task?: Prisma.taskOmit
 }
 
 /* Types for Logging */

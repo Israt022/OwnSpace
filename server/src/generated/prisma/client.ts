@@ -61,3 +61,8 @@ export type account = Prisma.accountModel
  * 
  */
 export type verification = Prisma.verificationModel
+/**
+ * Model task
+ * 
+ */
+export type task = Prisma.taskModel

@@ -9,6 +9,16 @@
 * 🟢 You can import this file directly.
 */
 
+export const TaskPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  URGENT: 'URGENT'
+} as const
+
+export type TaskPriority = (typeof TaskPriority)[keyof typeof TaskPriority]
+
+
 export const UserRole = {
   USER: 'USER',
   ADMIN: 'ADMIN'

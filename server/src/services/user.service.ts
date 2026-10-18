@@ -65,3 +65,37 @@ export async function getUserByEmail(email: string): Promise<UserResponse | null
 
   return user;
 }
+
+/**
+ * Update allowed profile fields (name, image) for a user.
+ * Protected: role and email are not editable via profile update.
+ */
+export async function updateUserProfile(
+  userId: string,
+  data: { name?: string; image?: string | null }
+): Promise<UserResponse> {
+  const updateData: Record<string, unknown> = {};
+  if (data.name !== undefined && data.name.trim()) {
+    updateData.name = data.name.trim();
+  }
+  if (data.image !== undefined) {
+    updateData.image = data.image;
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: userId },
+    data: updateData,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      emailVerified: true,
+      image: true,
+      role: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return updated;
+}

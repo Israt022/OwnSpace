@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getServerSession } from "@/lib/session";
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "OwnSpace — Daily Task Tracking & Personal Productivity",
 };
 
+export const dynamic = "force-dynamic";
+
 /**
- * Home page — Server Component (no "use client").
- *
- * This is a static landing page. It does not need access to the session
- * because the Navbar (a Client Component) handles the auth state display.
+ * Home page — Server Component.
+ * Dynamically adapts hero CTAs based on authenticated user session and role.
  */
-export default function Home() {
+export default async function Home() {
+  const sessionData = await getServerSession();
+  const user = sessionData?.user;
+  const isAdmin = user?.role === "ADMIN";
+
   return (
     <div
       className="auth-bg"
@@ -28,7 +33,7 @@ export default function Home() {
       {/* Hero */}
       <div
         className="animate-in"
-        style={{ maxWidth: "640px", position: "relative", zIndex: 1 }}
+        style={{ maxWidth: "660px", position: "relative", zIndex: 1 }}
       >
         {/* Badge */}
         <div
@@ -52,7 +57,7 @@ export default function Home() {
               textTransform: "uppercase",
             }}
           >
-            ✦ Your personal space
+            ✦ Your personal daily space
           </span>
         </div>
 
@@ -68,7 +73,7 @@ export default function Home() {
         >
           Own your day,
           <br />
-          every day.
+          every single day.
         </h1>
 
         <p
@@ -79,8 +84,8 @@ export default function Home() {
             margin: "0 0 2.5rem",
           }}
         >
-          OwnSpace helps you track daily tasks, build lasting habits, and stay
-          consistent — all in one beautiful, distraction-free space.
+          OwnSpace helps you track daily tasks, prioritize what matters most, and
+          build steady momentum — all in a professional, distraction-free dashboard.
         </p>
 
         {/* CTA buttons */}
@@ -92,35 +97,73 @@ export default function Home() {
             flexWrap: "wrap",
           }}
         >
-          <Link
-            href="/sign-up"
-            id="hero-signup-btn"
-            className="hero-btn-primary"
-          >
-            Get Started Free
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </Link>
+          {user ? (
+            <>
+              <Link
+                href={isAdmin ? "/admin" : "/dashboard"}
+                id="hero-dashboard-btn"
+                className="hero-btn-primary"
+              >
+                {isAdmin ? "Open Admin Dashboard" : "Open Daily Task Dashboard"}
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
 
-          <Link
-            href="/sign-in"
-            id="hero-signin-btn"
-            className="hero-btn-secondary"
-          >
-            Sign In
-          </Link>
+              {isAdmin && (
+                <Link
+                  href="/dashboard?view=user"
+                  id="hero-user-tasks-btn"
+                  className="hero-btn-secondary"
+                >
+                  My Personal Tasks
+                </Link>
+              )}
+            </>
+          ) : (
+            <>
+              <Link
+                href="/sign-up"
+                id="hero-signup-btn"
+                className="hero-btn-primary"
+              >
+                Get Started Free
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
+
+              <Link
+                href="/sign-in"
+                id="hero-signin-btn"
+                className="hero-btn-secondary"
+              >
+                Sign In
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Feature pills */}
@@ -134,10 +177,10 @@ export default function Home() {
           }}
         >
           {[
-            "✓ Daily tasks",
-            "✓ Habit streaks",
-            "✓ Routine builder",
-            "✓ Progress insights",
+            "✓ Daily task manager",
+            "✓ Role-based access",
+            "✓ Priority indicators",
+            "✓ Productivity stats",
           ].map((feature) => (
             <span
               key={feature}
