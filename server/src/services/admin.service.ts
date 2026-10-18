@@ -146,3 +146,46 @@ export async function updateUserRole(
 
   return updated;
 }
+
+export interface AdminActivityItem {
+  id: string;
+  type: "TASK_CREATED" | "TASK_COMPLETED";
+  title: string;
+  userName: string;
+  userEmail: string;
+  userImage: string | null;
+  priority: string;
+  category: string;
+  timestamp: Date;
+}
+
+/**
+ * Fetch recent system activities (tasks created or completed across the platform).
+ */
+export async function getAdminActivities(limit = 30): Promise<AdminActivityItem[]> {
+  const tasks = await prisma.task.findMany({
+    take: limit,
+    orderBy: { updatedAt: "desc" },
+    include: {
+      user: {
+        select: {
+          name: true,
+          email: true,
+          image: true,
+        },
+      },
+    },
+  });
+
+  return tasks.map((t) => ({
+    id: t.id,
+    type: t.completed ? "TASK_COMPLETED" : "TASK_CREATED",
+    title: t.title,
+    userName: t.user.name,
+    userEmail: t.user.email,
+    userImage: t.user.image,
+    priority: t.priority,
+    category: t.category,
+    timestamp: t.completed && t.completedAt ? t.completedAt : t.createdAt,
+  }));
+}

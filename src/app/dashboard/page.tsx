@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getServerSession } from "@/lib/session";
-import UserDashboard from "@/components/dashboard/UserDashboard";
+import OverviewClient from "./OverviewClient";
 
 export const metadata: Metadata = {
-  title: "Daily Tasks Dashboard | OwnSpace",
-  description: "Track your daily tasks, stay consistent, and accomplish your goals.",
+  title: "Dashboard Overview | OwnSpace",
+  description: "Track your daily tasks and productivity momentum.",
 };
 
 export const dynamic = "force-dynamic";
@@ -17,7 +17,6 @@ interface DashboardPageProps {
 export default async function DashboardPage(props: DashboardPageProps) {
   const sessionData = await getServerSession();
 
-  // If not authenticated, redirect to sign-in
   if (!sessionData || !sessionData.user) {
     redirect("/sign-in");
   }
@@ -25,16 +24,11 @@ export default async function DashboardPage(props: DashboardPageProps) {
   const { user } = sessionData;
   const searchParams = await props.searchParams;
 
-  // Role-based redirect:
-  // If user is an ADMIN and didn't explicitly request personal user view (?view=user),
-  // automatically route them to the Admin Dashboard.
+  // Role-based automatic redirect:
+  // If user is ADMIN and didn't explicitly request personal view (?view=user), route to /admin
   if (user.role === "ADMIN" && searchParams.view !== "user") {
     redirect("/admin");
   }
 
-  return (
-    <main style={{ minHeight: "calc(100vh - var(--navbar-h))", background: "var(--background)" }}>
-      <UserDashboard user={user} />
-    </main>
-  );
+  return <OverviewClient user={user} />;
 }
