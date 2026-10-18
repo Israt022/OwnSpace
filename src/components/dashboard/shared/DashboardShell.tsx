@@ -28,13 +28,21 @@ export default function DashboardShell({
     <div
       style={{
         display: "flex",
-        minHeight: "calc(100vh - var(--navbar-h))",
+        height: "100dvh",
+        overflow: "hidden",
         background: "var(--background)",
         position: "relative",
       }}
     >
       {/* Desktop Sidebar */}
-      <div className="desktop-sidebar-container">
+      <div
+        className="desktop-sidebar-container"
+        style={{
+          height: "100%",
+          overflowY: "auto",
+          flexShrink: 0,
+        }}
+      >
         <DashboardSidebar user={user} role={role} />
       </div>
 
@@ -80,6 +88,8 @@ export default function DashboardShell({
           display: "flex",
           flexDirection: "column",
           minWidth: 0,
+          minHeight: 0,
+          overflow: "hidden",
         }}
       >
         <DashboardHeader
@@ -90,7 +100,18 @@ export default function DashboardShell({
           actions={actions}
         />
 
-        <main style={{ flex: 1, padding: "1.75rem 1.5rem", maxWidth: "1280px", width: "100%", margin: "0 auto" }}>
+        <main
+          style={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: "auto",
+            padding: "1.75rem 1.5rem",
+            maxWidth: "1280px",
+            width: "100%",
+            margin: "0 auto",
+            boxSizing: "border-box",
+          }}
+        >
           {children}
         </main>
       </div>

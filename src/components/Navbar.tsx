@@ -12,12 +12,12 @@
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 
-const emptySubscribe = () => () => {};
+const emptySubscribe = () => () => { };
 
 // ── Theme Toggle Component ────────────────────────────────────────────────
 function ThemeToggle({ id, className }: { id?: string; className?: string }) {
@@ -28,6 +28,7 @@ function ThemeToggle({ id, className }: { id?: string; className?: string }) {
     () => true,
     () => false
   );
+
 
   if (!mounted) {
     return (
@@ -101,11 +102,11 @@ function UserAvatar({
 }) {
   const initials = name
     ? name
-        .split(" ")
-        .slice(0, 2)
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
+      .split(" ")
+      .slice(0, 2)
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
     : "?";
 
   if (image) {
@@ -134,6 +135,14 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
+  const pathname = usePathname();
+
+  if (
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/admin")
+  ) {
+    return null;
+  }
 
   const handleSignOut = async () => {
     setSigningOut(true);
@@ -550,7 +559,7 @@ export default function Navbar() {
                               "";
                           }}
                         >
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                           Admin Console
                         </Link>
                       )}
@@ -579,7 +588,7 @@ export default function Navbar() {
                             "";
                         }}
                       >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
                         {isAdmin ? "My Daily Tasks" : "Daily Tasks Dashboard"}
                       </Link>
 
@@ -617,7 +626,7 @@ export default function Navbar() {
                         {signingOut ? (
                           <span className="spinner" style={{ borderTopColor: "var(--color-error)", borderColor: "rgba(239,68,68,0.3)" }} />
                         ) : (
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg>
                         )}
                         {signingOut ? "Signing out…" : "Sign Out"}
                       </button>
@@ -653,9 +662,9 @@ export default function Navbar() {
             }}
           >
             {menuOpen ? (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
             ) : (
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
             )}
           </button>
         </div>

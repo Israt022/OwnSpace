@@ -14,5 +14,9 @@ export default async function DashboardLayout({
     redirect("/sign-in");
   }
 
-  return <>{children}</>;
+  return (
+    <div className="h-screen overflow-y-auto">
+      {children}
+    </div>
+  );
 }
