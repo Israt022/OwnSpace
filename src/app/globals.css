@@ -2704,3 +2704,227 @@ body {
     transition: none;
   }
 }
+
+.os-platform-stats {
+  padding: 90px 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgb(99 102 241 / 10%), transparent 60%),
+    #090d18;
+  color: #f1f5f9;
+}
+
+.os-stats-heading {
+  max-width: 650px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.os-stats-heading>span {
+  color: #a5b4fc;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.os-stats-heading h2 {
+  margin: 14px 0;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  letter-spacing: -0.045em;
+}
+
+.os-stats-heading p,
+.os-stat-item p,
+.os-stats-note {
+  color: #929bb0;
+}
+
+.os-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 1000px;
+  margin: auto;
+  border-top: 1px solid rgb(165 180 252 / 18%);
+  border-bottom: 1px solid rgb(165 180 252 / 18%);
+}
+
+.os-stat-item {
+  padding: 32px 20px;
+  text-align: center;
+  transition: background 250ms ease, transform 250ms ease;
+}
+
+.os-stat-item+.os-stat-item {
+  border-left: 1px solid rgb(165 180 252 / 18%);
+}
+
+.os-stat-item:hover {
+  background: rgb(165 180 252 / 5%);
+  transform: translateY(-4px);
+}
+
+.os-stat-item>svg {
+  color: #a5b4fc;
+}
+
+.os-stat-number {
+  margin-top: 12px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 750;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.os-stat-item p {
+  margin-top: 6px;
+  font-size: 0.875rem;
+}
+
+.os-stats-note {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+  .os-platform-stats {
+    padding: 64px 16px;
+  }
+
+  .os-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .os-stat-item {
+    padding: 24px 12px;
+  }
+
+  .os-stat-item+.os-stat-item {
+    border-left: 0;
+    border-top: 1px solid rgb(165 180 252 / 18%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-stat-item {
+    transition: none;
+  }
+}
+
+/* OwnSpace stats — graceful fallback design */
+.os-stats-heading>.os-stats-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #a5b4fc;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.os-stats-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #818cf8;
+  box-shadow: 0 0 12px rgb(129 140 248 / 60%);
+}
+
+.os-stats-heading h2 span {
+  color: #a5b4fc;
+}
+
+.os-stats-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 26px;
+  padding: 13px 20px;
+  border: 1px solid rgb(165 180 252 / 25%);
+  border-radius: 999px;
+  color: #f1f5f9;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.os-stats-cta:hover {
+  background: rgb(129 140 248 / 10%);
+  border-color: #818cf8;
+}
+
+.os-stats-unavailable {
+  max-width: 680px;
+  margin: 60px auto 0;
+}
+
+.os-stats-decoration {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #717b94;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+}
+
+.os-stats-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgb(129 140 248 / 50%),
+      transparent);
+}
+
+.os-stats-message {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 20px;
+  padding: 24px 0;
+  border-top: 1px solid rgb(165 180 252 / 14%);
+  border-bottom: 1px solid rgb(165 180 252 / 14%);
+}
+
+.os-stats-message-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgb(165 180 252 / 20%);
+  border-radius: 15px;
+  background: rgb(129 140 248 / 7%);
+  color: #a5b4fc;
+  font-size: 1.5rem;
+}
+
+.os-stats-message strong {
+  color: #f1f5f9;
+  font-size: 0.95rem;
+}
+
+.os-stats-message p {
+  margin-top: 7px;
+  color: #929bb0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .os-stats-unavailable {
+    margin-top: 42px;
+  }
+
+  .os-stats-message {
+    gap: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .os-stats-cta {
+    transition: none;
+  }
+}
