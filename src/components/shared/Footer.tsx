@@ -15,9 +15,9 @@ type NavLink = {
 
 const PRODUCT_LINKS: NavLink[] = [
     { label: "Home", href: "/" },
-    { label: "Features", href: "/#features" },
-    { label: "How it works", href: "/#how-it-works" },
-    { label: "Members & Admins", href: "/#roles" },
+    { label: "About", href: "/about" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Privacy Policy", href: "/privacy" },
 ];
 
 const GUEST_LINKS: NavLink[] = [
