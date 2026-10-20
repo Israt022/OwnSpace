@@ -148,6 +148,12 @@ export default function Navbar() {
           >
             Home
           </Link>
+          <Link
+            href="/about"
+            className="rounded-xl px-4 py-2.5 text-sm font-medium text-[var(--color-text-muted)] transition hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)]"
+          >
+            About
+          </Link>
 
           {!isPending && user && (
             <>
@@ -307,6 +313,13 @@ export default function Navbar() {
               className="rounded-xl px-4 py-3 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-2)]"
             >
               Home
+            </Link>
+            <Link
+              href="/about"
+              onClick={closeMenus}
+              className="rounded-xl px-4 py-3 text-sm font-medium text-[var(--color-text)] transition hover:bg-[var(--color-surface-2)]"
+            >
+              About
             </Link>
 
             {!isPending && user && (
