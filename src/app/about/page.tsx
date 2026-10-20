@@ -1,57 +1,71 @@
+
 "use client";
 
 import Link from "next/link";
-import { motion } from "motion/react";
-import { ArrowRight, CalendarDays, CheckCircle2, LayoutDashboard, Target } from "lucide-react";
+import { ArrowDownRight, ArrowRight, CalendarDays, CheckCircle2, LayoutDashboard } from "lucide-react";
+import PublicPageIntro from "@/components/public/PublicPageIntro";
+import Reveal from "@/components/public/Reveal";
 
-const principles = [
-    { icon: LayoutDashboard, title: "Your own space", text: "Organize your workspace around your personal tasks and goals." },
-    { icon: CheckCircle2, title: "Track your progress", text: "Mark tasks complete and keep track of what you have accomplished." },
-    { icon: CalendarDays, title: "Plan by date", text: "Connect your tasks with dates to make daily planning easier." },
+const features = [
+    { icon: LayoutDashboard, number: "01", title: "Make it your own", text: "Create a personal workspace around your tasks, goals, and routines." },
+    { icon: CheckCircle2, number: "02", title: "Make progress visible", text: "Complete tasks and keep track of the work you have finished." },
+    { icon: CalendarDays, number: "03", title: "Keep your days connected", text: "Use due dates to organize tasks around your schedule." },
 ];
 
 export default function AboutPage() {
     return (
         <main className="min-h-screen overflow-hidden bg-slate-50 text-slate-900 dark:bg-[#090d18] dark:text-white">
-            <section className="relative px-5 pb-16 pt-20 sm:px-8 sm:pb-24 sm:pt-28">
-                <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-indigo-400/15 blur-[100px]" />
-                <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }} className="relative mx-auto max-w-4xl text-center">
-                    <span className="inline-flex items-center gap-2 rounded-full border border-indigo-300/30 bg-indigo-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">
-                        <Target size={14} /> About OwnSpace
-                    </span>
-                    <h1 className="mt-7 text-4xl font-bold tracking-tight sm:text-6xl">
-                        Make room for what <span className="text-indigo-500">matters.</span>
-                    </h1>
-                    <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-400 sm:text-lg">
-                        OwnSpace is a personal productivity workspace built to help you organize daily tasks, plan your time, and build more consistent routines.
-                    </p>
-                    <Link href="/#features" className="mt-8 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500">
-                        Explore features <ArrowRight size={16} />
+            <section className="relative px-5 pb-20 pt-24 sm:px-10 sm:pb-28 sm:pt-32">
+                <div className="pointer-events-none absolute -right-24 top-10 h-80 w-80 rounded-full bg-indigo-500/10 blur-[110px]" />
+                <div className="relative mx-auto max-w-6xl">
+                    <PublicPageIntro
+                        eyebrow="A little about us"
+                        title="Your day. Your goals."
+                        accent="Your space."
+                        description="OwnSpace is a personal productivity workspace for organizing tasks, planning your time, and building routines that work for you."
+                    />
+                    <Link href="/#features" className="group mt-9 inline-flex items-center gap-3 text-sm font-semibold text-indigo-600 dark:text-indigo-400">
+                        Explore the features <ArrowDownRight size={18} className="transition-transform group-hover:translate-x-1 group-hover:translate-y-1" />
                     </Link>
-                </motion.div>
+                </div>
             </section>
 
-            <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-8">
-                <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} className="grid gap-5 md:grid-cols-3">
-                    {principles.map(({ icon: Icon, title, text }, index) => (
-                        <motion.article key={title} whileHover={{ y: -5 }} transition={{ duration: 0.2 }} className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/[0.08] dark:bg-white/[0.025] sm:p-7">
-                            <span className="inline-flex rounded-xl bg-indigo-500/10 p-3 text-indigo-600 dark:text-indigo-300"><Icon size={22} /></span>
-                            <p className="mt-5 text-xs font-semibold tracking-widest text-slate-400">0{index + 1}</p>
-                            <h2 className="mt-2 text-xl font-semibold">{title}</h2>
-                            <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-400">{text}</p>
-                        </motion.article>
-                    ))}
-                </motion.div>
+            <section className="border-y border-slate-200 dark:border-white/10">
+                <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-10 md:grid-cols-[0.8fr_1.2fr] md:gap-20 md:py-20">
+                    <Reveal>
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">The idea</p>
+                        <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">Less scattered. More intentional.</h2>
+                    </Reveal>
+                    <Reveal delay={0.1}>
+                        <p className="text-base leading-8 text-slate-600 dark:text-slate-400">
+                            Everyone has different responsibilities. OwnSpace gives you a place to organize personal tasks, set priorities, mark completed work, and plan around dates without forcing everyone into the same routine.
+                        </p>
+                    </Reveal>
+                </div>
+            </section>
 
-                <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mt-16 rounded-3xl border border-indigo-200/70 bg-gradient-to-br from-indigo-50 to-white p-7 dark:border-indigo-400/15 dark:from-indigo-500/[0.09] dark:to-white/[0.02] sm:p-10">
-                    <h2 className="text-2xl font-bold sm:text-3xl">Built around your day</h2>
-                    <p className="mt-4 max-w-3xl leading-8 text-slate-600 dark:text-slate-400">
-                        Everyone has different responsibilities and routines. OwnSpace brings task management, priorities, completion tracking, and date-based planning into one place, with separate user and administrator experiences.
-                    </p>
-                    <Link href="/faq" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-300">
-                        Questions about OwnSpace? <ArrowRight size={16} />
-                    </Link>
-                </motion.div>
+            <section className="mx-auto max-w-6xl px-5 py-20 sm:px-10 sm:py-28">
+                <Reveal>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">What you can do</p>
+                    <h2 className="mt-4 max-w-xl text-3xl font-semibold tracking-tight sm:text-5xl">A workspace that follows your workflow.</h2>
+                </Reveal>
+                <div className="mt-12">
+                    {features.map(({ icon: Icon, number, title, text }, index) => (
+                        <Reveal key={number} delay={index * 0.08}>
+                            <article className="group grid gap-4 border-t border-slate-200 py-7 transition-colors hover:border-indigo-400 dark:border-white/10 dark:hover:border-indigo-400 sm:grid-cols-[70px_1fr_1.2fr] sm:items-center sm:gap-8">
+                                <span className="text-sm tabular-nums text-slate-400">{number}</span>
+                                <div className="flex items-center gap-3">
+                                    <Icon size={20} className="shrink-0 text-indigo-500 transition-transform group-hover:scale-110" />
+                                    <h3 className="text-lg font-semibold">{title}</h3>
+                                </div>
+                                <p className="text-sm leading-7 text-slate-600 dark:text-slate-400">{text}</p>
+                            </article>
+                        </Reveal>
+                    ))}
+                </div>
+                <Link href="/faq" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 hover:gap-3 dark:text-indigo-400">
+                    Explore common questions <ArrowRight size={16} />
+                </Link>
             </section>
         </main>
     );
