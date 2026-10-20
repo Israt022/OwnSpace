@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,9 @@ export default function RootLayout({
           <main style={{ flex: 1 }}>
             {children}
           </main>
+
+          {/* Footer is also sticky — it stays at the bottom as users scroll */}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

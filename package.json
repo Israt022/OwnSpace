@@ -24,7 +24,8 @@
     "pg": "^8.23.1",
     "prisma": "^7.10.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "simple-icons": "^16.35.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
