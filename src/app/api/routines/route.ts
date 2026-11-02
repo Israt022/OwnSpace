@@ -5,11 +5,10 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request) {
-  return await getRoutinesController(req);
+export async function GET() {
+  return await getRoutinesController();
 }
 
 export async function POST(req: Request) {
   return await createRoutineController(req);
 }
-

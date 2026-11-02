@@ -7,56 +7,67 @@ export type DayOfWeek =
   | "SATURDAY"
   | "SUNDAY";
 
-export interface RoutineResponse {
+export interface RoutineEntryResponse {
   id: string;
   title: string;
   description: string | null;
-  dayOfWeek: DayOfWeek;
-  startTime: string; // "HH:mm"
-  endTime: string;   // "HH:mm"
   category: string;
-  reminder: boolean;
+  dayOfWeek: DayOfWeek;
+  startTime: string; // "HH:mm" (24h)
+  endTime: string;   // "HH:mm" (24h)
+  location: string | null;
   color: string | null;
+  routineId: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface RoutineResponse {
+  id: string;
+  name: string;
+  description: string | null;
+  color: string | null;
+  isDefault: boolean;
   userId: string;
+  entries: RoutineEntryResponse[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface CreateRoutineInput {
-  title: string;
+  name: string;
   description?: string | null;
-  dayOfWeek: DayOfWeek;
-  startTime: string;
-  endTime: string;
-  category?: string;
-  reminder?: boolean;
   color?: string | null;
-  allowOverlap?: boolean;
+  isDefault?: boolean;
 }
 
 export interface UpdateRoutineInput {
-  title?: string;
+  name?: string;
   description?: string | null;
-  dayOfWeek?: DayOfWeek;
-  startTime?: string;
-  endTime?: string;
+  color?: string | null;
+  isDefault?: boolean;
+}
+
+export interface CreateRoutineEntryInput {
+  title: string;
+  description?: string | null;
   category?: string;
-  reminder?: boolean;
+  dayOfWeek: DayOfWeek;
+  startTime: string; // "HH:mm"
+  endTime: string;   // "HH:mm"
+  location?: string | null;
   color?: string | null;
   allowOverlap?: boolean;
 }
 
-export interface RoutineFilter {
-  dayOfWeek?: DayOfWeek;
+export interface UpdateRoutineEntryInput {
+  title?: string;
+  description?: string | null;
   category?: string;
-  search?: string;
+  dayOfWeek?: DayOfWeek;
+  startTime?: string;
+  endTime?: string;
+  location?: string | null;
+  color?: string | null;
+  allowOverlap?: boolean;
 }
-
-export interface RoutineStats {
-  total: number;
-  byDay: Record<DayOfWeek, number>;
-  categories: { name: string; count: number }[];
-  todayCount: number;
-  totalWeeklyMinutes: number;
-}
-

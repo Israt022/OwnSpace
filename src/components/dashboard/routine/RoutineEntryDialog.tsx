@@ -2,30 +2,39 @@
 
 import { useState, FormEvent } from "react";
 import { X, AlertCircle } from "lucide-react";
-import { RoutineResponse, DayOfWeek, CreateRoutineInput } from "@server/types";
-import RoutineFormInputs from "./RoutineFormInputs";
+import { RoutineEntryResponse, DayOfWeek, CreateRoutineEntryInput } from "@server/types";
+import RoutineEntryInputs from "./RoutineEntryInputs";
 
-interface RoutineFormDialogProps {
+interface RoutineEntryDialogProps {
   isOpen: boolean;
-  initialRoutine?: RoutineResponse | null;
+  initialEntry?: RoutineEntryResponse | null;
   defaultDay?: DayOfWeek;
+  defaultStartTime?: string;
   onClose: () => void;
-  onSubmit: (input: CreateRoutineInput) => Promise<void>;
+  onSubmit: (input: CreateRoutineEntryInput) => Promise<void>;
 }
 
-function RoutineFormInner({
-  initialRoutine,
+function RoutineEntryFormInner({
+  initialEntry,
   defaultDay,
+  defaultStartTime,
   onClose,
   onSubmit,
-}: Omit<RoutineFormDialogProps, "isOpen">) {
-  const [title, setTitle] = useState(() => initialRoutine?.title ?? "");
-  const [description, setDescription] = useState(() => initialRoutine?.description ?? "");
-  const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(() => initialRoutine?.dayOfWeek ?? defaultDay ?? "MONDAY");
-  const [startTime, setStartTime] = useState(() => initialRoutine?.startTime ?? "09:00");
-  const [endTime, setEndTime] = useState(() => initialRoutine?.endTime ?? "10:00");
-  const [category, setCategory] = useState(() => initialRoutine?.category ?? "Study");
-  const [reminder, setReminder] = useState(() => initialRoutine?.reminder ?? false);
+}: Omit<RoutineEntryDialogProps, "isOpen">) {
+  const [title, setTitle] = useState(() => initialEntry?.title ?? "");
+  const [description, setDescription] = useState(() => initialEntry?.description ?? "");
+  const [category, setCategory] = useState(() => initialEntry?.category ?? "Lecture");
+  const [dayOfWeek, setDayOfWeek] = useState<DayOfWeek>(() => initialEntry?.dayOfWeek ?? defaultDay ?? "MONDAY");
+  const [startTime, setStartTime] = useState(() => initialEntry?.startTime ?? defaultStartTime ?? "09:00");
+  const [endTime, setEndTime] = useState(() => {
+    if (initialEntry?.endTime) return initialEntry.endTime;
+    if (defaultStartTime) {
+      const h = parseInt(defaultStartTime.split(":")[0], 10);
+      return `${String(Math.min(23, h + 1)).padStart(2, "0")}:00`;
+    }
+    return "10:00";
+  });
+  const [location, setLocation] = useState(() => initialEntry?.location ?? "");
   const [allowOverlap, setAllowOverlap] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -33,11 +42,11 @@ function RoutineFormInner({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!title.trim()) {
-      setErrorMessage("Please enter a routine title.");
+      setErrorMessage("Please enter an activity title or subject.");
       return;
     }
     if (endTime <= startTime) {
-      setErrorMessage("End time must be later than start time.");
+      setErrorMessage("End time must be strictly later than start time.");
       return;
     }
 
@@ -47,16 +56,16 @@ function RoutineFormInner({
       await onSubmit({
         title: title.trim(),
         description: description.trim() || null,
+        category,
         dayOfWeek,
         startTime,
         endTime,
-        category,
-        reminder,
+        location: location.trim() || null,
         allowOverlap,
       });
       onClose();
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : "Failed to save routine");
+      setErrorMessage(err instanceof Error ? err.message : "Failed to save activity");
     } finally {
       setLoading(false);
     }
@@ -66,7 +75,7 @@ function RoutineFormInner({
     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
         <h3 style={{ margin: 0, fontSize: "1.125rem", fontWeight: 700, color: "var(--foreground)" }}>
-          {initialRoutine ? "Edit Routine" : "Add New Routine"}
+          {initialEntry ? "Edit Timetable Activity" : "Add Timetable Activity"}
         </h3>
         <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted-foreground)" }}>
           <X size={18} />
@@ -94,11 +103,9 @@ function RoutineFormInner({
       )}
 
       <form onSubmit={handleSubmit}>
-        <RoutineFormInputs
+        <RoutineEntryInputs
           title={title}
           setTitle={setTitle}
-          description={description}
-          setDescription={setDescription}
           dayOfWeek={dayOfWeek}
           setDayOfWeek={setDayOfWeek}
           category={category}
@@ -107,20 +114,14 @@ function RoutineFormInner({
           setStartTime={setStartTime}
           endTime={endTime}
           setEndTime={setEndTime}
+          location={location}
+          setLocation={setLocation}
+          description={description}
+          setDescription={setDescription}
         />
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "1.25rem" }}>
-          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.8125rem", cursor: "pointer" }}>
-            <input
-              type="checkbox"
-              checked={reminder}
-              onChange={(e) => setReminder(e.target.checked)}
-              style={{ accentColor: "var(--color-brand-500)" }}
-            />
-            <span style={{ color: "var(--foreground)" }}>Enable reminder indicator</span>
-          </label>
-
-          {errorMessage?.includes("conflicts") && (
+        {errorMessage?.includes("conflicts") && (
+          <div style={{ marginBottom: "1rem" }}>
             <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.8125rem", cursor: "pointer", color: "var(--color-brand-500)" }}>
               <input
                 type="checkbox"
@@ -128,17 +129,17 @@ function RoutineFormInner({
                 onChange={(e) => setAllowOverlap(e.target.checked)}
                 style={{ accentColor: "var(--color-brand-500)" }}
               />
-              <span>Allow time overlap anyway</span>
+              <span>Allow overlapping time slot</span>
             </label>
-          )}
-        </div>
+          </div>
+        )}
 
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.75rem", marginTop: "1rem" }}>
           <button type="button" onClick={onClose} className="hero-btn-secondary" style={{ padding: "0.55rem 1.15rem", fontSize: "0.875rem" }}>
             Cancel
           </button>
           <button type="submit" disabled={loading} className="hero-btn-primary" style={{ padding: "0.55rem 1.35rem", fontSize: "0.875rem" }}>
-            {loading ? "Saving…" : initialRoutine ? "Update Routine" : "Add Routine"}
+            {loading ? "Saving…" : initialEntry ? "Update Activity" : "Add Activity"}
           </button>
         </div>
       </form>
@@ -146,14 +147,13 @@ function RoutineFormInner({
   );
 }
 
-export default function RoutineFormDialog(props: RoutineFormDialogProps) {
+export default function RoutineEntryDialog(props: RoutineEntryDialogProps) {
   if (!props.isOpen) return null;
-
-  const key = props.initialRoutine ? props.initialRoutine.id : (props.defaultDay || "new");
+  const key = props.initialEntry ? props.initialEntry.id : `${props.defaultDay || "new"}-${props.defaultStartTime || "09:00"}`;
 
   return (
     <div className="modal-overlay" onClick={props.onClose}>
-      <RoutineFormInner key={key} {...props} />
+      <RoutineEntryFormInner key={key} {...props} />
     </div>
   );
 }

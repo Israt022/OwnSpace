@@ -56,7 +56,8 @@ export const ModelName = {
   account: 'account',
   verification: 'verification',
   task: 'task',
-  routine: 'routine'
+  routine: 'routine',
+  routine_entry: 'routine_entry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -154,20 +155,34 @@ export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof Task
 
 export const RoutineScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  name: 'name',
   description: 'description',
-  dayOfWeek: 'dayOfWeek',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  category: 'category',
-  reminder: 'reminder',
   color: 'color',
+  isDefault: 'isDefault',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
 } as const
 
 export type RoutineScalarFieldEnum = (typeof RoutineScalarFieldEnum)[keyof typeof RoutineScalarFieldEnum]
+
+
+export const Routine_entryScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  category: 'category',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  location: 'location',
+  color: 'color',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  routineId: 'routineId'
+} as const
+
+export type Routine_entryScalarFieldEnum = (typeof Routine_entryScalarFieldEnum)[keyof typeof Routine_entryScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1,9 +1,18 @@
 import {
+  getRoutineByIdController,
   updateRoutineController,
   deleteRoutineController,
 } from "@server/controllers/routine.controller";
 
 export const dynamic = "force-dynamic";
+
+export async function GET(
+  _req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
+  return await getRoutineByIdController(id);
+}
 
 export async function PATCH(
   req: Request,
@@ -20,4 +29,3 @@ export async function DELETE(
   const { id } = await context.params;
   return await deleteRoutineController(id);
 }
-

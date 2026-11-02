@@ -71,3 +71,8 @@ export type task = Prisma.taskModel
  * 
  */
 export type routine = Prisma.routineModel
+/**
+ * Model routine_entry
+ * 
+ */
+export type routine_entry = Prisma.routine_entryModel

@@ -26,14 +26,10 @@ export type AggregateRoutine = {
 
 export type RoutineMinAggregateOutputType = {
   id: string | null
-  title: string | null
+  name: string | null
   description: string | null
-  dayOfWeek: $Enums.DayOfWeek | null
-  startTime: string | null
-  endTime: string | null
-  category: string | null
-  reminder: boolean | null
   color: string | null
+  isDefault: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
@@ -41,14 +37,10 @@ export type RoutineMinAggregateOutputType = {
 
 export type RoutineMaxAggregateOutputType = {
   id: string | null
-  title: string | null
+  name: string | null
   description: string | null
-  dayOfWeek: $Enums.DayOfWeek | null
-  startTime: string | null
-  endTime: string | null
-  category: string | null
-  reminder: boolean | null
   color: string | null
+  isDefault: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
@@ -56,14 +48,10 @@ export type RoutineMaxAggregateOutputType = {
 
 export type RoutineCountAggregateOutputType = {
   id: number
-  title: number
+  name: number
   description: number
-  dayOfWeek: number
-  startTime: number
-  endTime: number
-  category: number
-  reminder: number
   color: number
+  isDefault: number
   createdAt: number
   updatedAt: number
   userId: number
@@ -73,14 +61,10 @@ export type RoutineCountAggregateOutputType = {
 
 export type RoutineMinAggregateInputType = {
   id?: true
-  title?: true
+  name?: true
   description?: true
-  dayOfWeek?: true
-  startTime?: true
-  endTime?: true
-  category?: true
-  reminder?: true
   color?: true
+  isDefault?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -88,14 +72,10 @@ export type RoutineMinAggregateInputType = {
 
 export type RoutineMaxAggregateInputType = {
   id?: true
-  title?: true
+  name?: true
   description?: true
-  dayOfWeek?: true
-  startTime?: true
-  endTime?: true
-  category?: true
-  reminder?: true
   color?: true
+  isDefault?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -103,14 +83,10 @@ export type RoutineMaxAggregateInputType = {
 
 export type RoutineCountAggregateInputType = {
   id?: true
-  title?: true
+  name?: true
   description?: true
-  dayOfWeek?: true
-  startTime?: true
-  endTime?: true
-  category?: true
-  reminder?: true
   color?: true
+  isDefault?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -191,14 +167,10 @@ export type routineGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type RoutineGroupByOutputType = {
   id: string
-  title: string
+  name: string
   description: string | null
-  dayOfWeek: $Enums.DayOfWeek
-  startTime: string
-  endTime: string
-  category: string
-  reminder: boolean
   color: string | null
+  isDefault: boolean
   createdAt: Date
   updatedAt: Date
   userId: string
@@ -227,34 +199,28 @@ export type routineWhereInput = {
   OR?: Prisma.routineWhereInput[]
   NOT?: Prisma.routineWhereInput | Prisma.routineWhereInput[]
   id?: Prisma.StringFilter<"routine"> | string
-  title?: Prisma.StringFilter<"routine"> | string
+  name?: Prisma.StringFilter<"routine"> | string
   description?: Prisma.StringNullableFilter<"routine"> | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFilter<"routine"> | $Enums.DayOfWeek
-  startTime?: Prisma.StringFilter<"routine"> | string
-  endTime?: Prisma.StringFilter<"routine"> | string
-  category?: Prisma.StringFilter<"routine"> | string
-  reminder?: Prisma.BoolFilter<"routine"> | boolean
   color?: Prisma.StringNullableFilter<"routine"> | string | null
+  isDefault?: Prisma.BoolFilter<"routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"routine"> | Date | string
   userId?: Prisma.StringFilter<"routine"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
+  entries?: Prisma.Routine_entryListRelationFilter
 }
 
 export type routineOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  dayOfWeek?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  reminder?: Prisma.SortOrder
   color?: Prisma.SortOrderInput | Prisma.SortOrder
+  isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   user?: Prisma.userOrderByWithRelationInput
+  entries?: Prisma.routine_entryOrderByRelationAggregateInput
 }
 
 export type routineWhereUniqueInput = Prisma.AtLeast<{
@@ -262,30 +228,23 @@ export type routineWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.routineWhereInput | Prisma.routineWhereInput[]
   OR?: Prisma.routineWhereInput[]
   NOT?: Prisma.routineWhereInput | Prisma.routineWhereInput[]
-  title?: Prisma.StringFilter<"routine"> | string
+  name?: Prisma.StringFilter<"routine"> | string
   description?: Prisma.StringNullableFilter<"routine"> | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFilter<"routine"> | $Enums.DayOfWeek
-  startTime?: Prisma.StringFilter<"routine"> | string
-  endTime?: Prisma.StringFilter<"routine"> | string
-  category?: Prisma.StringFilter<"routine"> | string
-  reminder?: Prisma.BoolFilter<"routine"> | boolean
   color?: Prisma.StringNullableFilter<"routine"> | string | null
+  isDefault?: Prisma.BoolFilter<"routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"routine"> | Date | string
   userId?: Prisma.StringFilter<"routine"> | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.userWhereInput>
+  entries?: Prisma.Routine_entryListRelationFilter
 }, "id">
 
 export type routineOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  dayOfWeek?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  reminder?: Prisma.SortOrder
   color?: Prisma.SortOrderInput | Prisma.SortOrder
+  isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -299,14 +258,10 @@ export type routineScalarWhereWithAggregatesInput = {
   OR?: Prisma.routineScalarWhereWithAggregatesInput[]
   NOT?: Prisma.routineScalarWhereWithAggregatesInput | Prisma.routineScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"routine"> | string
-  title?: Prisma.StringWithAggregatesFilter<"routine"> | string
+  name?: Prisma.StringWithAggregatesFilter<"routine"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"routine"> | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekWithAggregatesFilter<"routine"> | $Enums.DayOfWeek
-  startTime?: Prisma.StringWithAggregatesFilter<"routine"> | string
-  endTime?: Prisma.StringWithAggregatesFilter<"routine"> | string
-  category?: Prisma.StringWithAggregatesFilter<"routine"> | string
-  reminder?: Prisma.BoolWithAggregatesFilter<"routine"> | boolean
   color?: Prisma.StringNullableWithAggregatesFilter<"routine"> | string | null
+  isDefault?: Prisma.BoolWithAggregatesFilter<"routine"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"routine"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"routine"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"routine"> | string
@@ -314,74 +269,58 @@ export type routineScalarWhereWithAggregatesInput = {
 
 export type routineCreateInput = {
   id?: string
-  title: string
+  name: string
   description?: string | null
-  dayOfWeek: $Enums.DayOfWeek
-  startTime: string
-  endTime: string
-  category?: string
-  reminder?: boolean
   color?: string | null
+  isDefault?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.userCreateNestedOneWithoutRoutinesInput
+  entries?: Prisma.routine_entryCreateNestedManyWithoutRoutineInput
 }
 
 export type routineUncheckedCreateInput = {
   id?: string
-  title: string
+  name: string
   description?: string | null
-  dayOfWeek: $Enums.DayOfWeek
-  startTime: string
-  endTime: string
-  category?: string
-  reminder?: boolean
   color?: string | null
+  isDefault?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  entries?: Prisma.routine_entryUncheckedCreateNestedManyWithoutRoutineInput
 }
 
 export type routineUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-  startTime?: Prisma.StringFieldUpdateOperationsInput | string
-  endTime?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.StringFieldUpdateOperationsInput | string
-  reminder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutRoutinesNestedInput
+  entries?: Prisma.routine_entryUpdateManyWithoutRoutineNestedInput
 }
 
 export type routineUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-  startTime?: Prisma.StringFieldUpdateOperationsInput | string
-  endTime?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.StringFieldUpdateOperationsInput | string
-  reminder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  entries?: Prisma.routine_entryUncheckedUpdateManyWithoutRoutineNestedInput
 }
 
 export type routineCreateManyInput = {
   id?: string
-  title: string
+  name: string
   description?: string | null
-  dayOfWeek: $Enums.DayOfWeek
-  startTime: string
-  endTime: string
-  category?: string
-  reminder?: boolean
   color?: string | null
+  isDefault?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -389,28 +328,20 @@ export type routineCreateManyInput = {
 
 export type routineUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-  startTime?: Prisma.StringFieldUpdateOperationsInput | string
-  endTime?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.StringFieldUpdateOperationsInput | string
-  reminder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type routineUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-  startTime?: Prisma.StringFieldUpdateOperationsInput | string
-  endTime?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.StringFieldUpdateOperationsInput | string
-  reminder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -428,14 +359,10 @@ export type routineOrderByRelationAggregateInput = {
 
 export type routineCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  dayOfWeek?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  reminder?: Prisma.SortOrder
   color?: Prisma.SortOrder
+  isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -443,14 +370,10 @@ export type routineCountOrderByAggregateInput = {
 
 export type routineMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  dayOfWeek?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  reminder?: Prisma.SortOrder
   color?: Prisma.SortOrder
+  isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -458,17 +381,18 @@ export type routineMaxOrderByAggregateInput = {
 
 export type routineMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  dayOfWeek?: Prisma.SortOrder
-  startTime?: Prisma.SortOrder
-  endTime?: Prisma.SortOrder
-  category?: Prisma.SortOrder
-  reminder?: Prisma.SortOrder
   color?: Prisma.SortOrder
+  isDefault?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+}
+
+export type RoutineScalarRelationFilter = {
+  is?: Prisma.routineWhereInput
+  isNot?: Prisma.routineWhereInput
 }
 
 export type routineCreateNestedManyWithoutUserInput = {
@@ -513,36 +437,40 @@ export type routineUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.routineScalarWhereInput | Prisma.routineScalarWhereInput[]
 }
 
-export type EnumDayOfWeekFieldUpdateOperationsInput = {
-  set?: $Enums.DayOfWeek
+export type routineCreateNestedOneWithoutEntriesInput = {
+  create?: Prisma.XOR<Prisma.routineCreateWithoutEntriesInput, Prisma.routineUncheckedCreateWithoutEntriesInput>
+  connectOrCreate?: Prisma.routineCreateOrConnectWithoutEntriesInput
+  connect?: Prisma.routineWhereUniqueInput
+}
+
+export type routineUpdateOneRequiredWithoutEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.routineCreateWithoutEntriesInput, Prisma.routineUncheckedCreateWithoutEntriesInput>
+  connectOrCreate?: Prisma.routineCreateOrConnectWithoutEntriesInput
+  upsert?: Prisma.routineUpsertWithoutEntriesInput
+  connect?: Prisma.routineWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.routineUpdateToOneWithWhereWithoutEntriesInput, Prisma.routineUpdateWithoutEntriesInput>, Prisma.routineUncheckedUpdateWithoutEntriesInput>
 }
 
 export type routineCreateWithoutUserInput = {
   id?: string
-  title: string
+  name: string
   description?: string | null
-  dayOfWeek: $Enums.DayOfWeek
-  startTime: string
-  endTime: string
-  category?: string
-  reminder?: boolean
   color?: string | null
+  isDefault?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  entries?: Prisma.routine_entryCreateNestedManyWithoutRoutineInput
 }
 
 export type routineUncheckedCreateWithoutUserInput = {
   id?: string
-  title: string
+  name: string
   description?: string | null
-  dayOfWeek: $Enums.DayOfWeek
-  startTime: string
-  endTime: string
-  category?: string
-  reminder?: boolean
   color?: string | null
+  isDefault?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  entries?: Prisma.routine_entryUncheckedCreateNestedManyWithoutRoutineInput
 }
 
 export type routineCreateOrConnectWithoutUserInput = {
@@ -576,103 +504,168 @@ export type routineScalarWhereInput = {
   OR?: Prisma.routineScalarWhereInput[]
   NOT?: Prisma.routineScalarWhereInput | Prisma.routineScalarWhereInput[]
   id?: Prisma.StringFilter<"routine"> | string
-  title?: Prisma.StringFilter<"routine"> | string
+  name?: Prisma.StringFilter<"routine"> | string
   description?: Prisma.StringNullableFilter<"routine"> | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFilter<"routine"> | $Enums.DayOfWeek
-  startTime?: Prisma.StringFilter<"routine"> | string
-  endTime?: Prisma.StringFilter<"routine"> | string
-  category?: Prisma.StringFilter<"routine"> | string
-  reminder?: Prisma.BoolFilter<"routine"> | boolean
   color?: Prisma.StringNullableFilter<"routine"> | string | null
+  isDefault?: Prisma.BoolFilter<"routine"> | boolean
   createdAt?: Prisma.DateTimeFilter<"routine"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"routine"> | Date | string
   userId?: Prisma.StringFilter<"routine"> | string
 }
 
+export type routineCreateWithoutEntriesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  color?: string | null
+  isDefault?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.userCreateNestedOneWithoutRoutinesInput
+}
+
+export type routineUncheckedCreateWithoutEntriesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  color?: string | null
+  isDefault?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId: string
+}
+
+export type routineCreateOrConnectWithoutEntriesInput = {
+  where: Prisma.routineWhereUniqueInput
+  create: Prisma.XOR<Prisma.routineCreateWithoutEntriesInput, Prisma.routineUncheckedCreateWithoutEntriesInput>
+}
+
+export type routineUpsertWithoutEntriesInput = {
+  update: Prisma.XOR<Prisma.routineUpdateWithoutEntriesInput, Prisma.routineUncheckedUpdateWithoutEntriesInput>
+  create: Prisma.XOR<Prisma.routineCreateWithoutEntriesInput, Prisma.routineUncheckedCreateWithoutEntriesInput>
+  where?: Prisma.routineWhereInput
+}
+
+export type routineUpdateToOneWithWhereWithoutEntriesInput = {
+  where?: Prisma.routineWhereInput
+  data: Prisma.XOR<Prisma.routineUpdateWithoutEntriesInput, Prisma.routineUncheckedUpdateWithoutEntriesInput>
+}
+
+export type routineUpdateWithoutEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.userUpdateOneRequiredWithoutRoutinesNestedInput
+}
+
+export type routineUncheckedUpdateWithoutEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
 export type routineCreateManyUserInput = {
   id?: string
-  title: string
+  name: string
   description?: string | null
-  dayOfWeek: $Enums.DayOfWeek
-  startTime: string
-  endTime: string
-  category?: string
-  reminder?: boolean
   color?: string | null
+  isDefault?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type routineUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-  startTime?: Prisma.StringFieldUpdateOperationsInput | string
-  endTime?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.StringFieldUpdateOperationsInput | string
-  reminder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  entries?: Prisma.routine_entryUpdateManyWithoutRoutineNestedInput
 }
 
 export type routineUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-  startTime?: Prisma.StringFieldUpdateOperationsInput | string
-  endTime?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.StringFieldUpdateOperationsInput | string
-  reminder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  entries?: Prisma.routine_entryUncheckedUpdateManyWithoutRoutineNestedInput
 }
 
 export type routineUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  dayOfWeek?: Prisma.EnumDayOfWeekFieldUpdateOperationsInput | $Enums.DayOfWeek
-  startTime?: Prisma.StringFieldUpdateOperationsInput | string
-  endTime?: Prisma.StringFieldUpdateOperationsInput | string
-  category?: Prisma.StringFieldUpdateOperationsInput | string
-  reminder?: Prisma.BoolFieldUpdateOperationsInput | boolean
   color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDefault?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
+/**
+ * Count Type RoutineCountOutputType
+ */
+
+export type RoutineCountOutputType = {
+  entries: number
+}
+
+export type RoutineCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  entries?: boolean | RoutineCountOutputTypeCountEntriesArgs
+}
+
+/**
+ * RoutineCountOutputType without action
+ */
+export type RoutineCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RoutineCountOutputType
+   */
+  select?: Prisma.RoutineCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * RoutineCountOutputType without action
+ */
+export type RoutineCountOutputTypeCountEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.routine_entryWhereInput
+}
+
 
 export type routineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  name?: boolean
   description?: boolean
-  dayOfWeek?: boolean
-  startTime?: boolean
-  endTime?: boolean
-  category?: boolean
-  reminder?: boolean
   color?: boolean
+  isDefault?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
   user?: boolean | Prisma.userDefaultArgs<ExtArgs>
+  entries?: boolean | Prisma.routine$entriesArgs<ExtArgs>
+  _count?: boolean | Prisma.RoutineCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["routine"]>
 
 export type routineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  name?: boolean
   description?: boolean
-  dayOfWeek?: boolean
-  startTime?: boolean
-  endTime?: boolean
-  category?: boolean
-  reminder?: boolean
   color?: boolean
+  isDefault?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -681,14 +674,10 @@ export type routineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type routineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  title?: boolean
+  name?: boolean
   description?: boolean
-  dayOfWeek?: boolean
-  startTime?: boolean
-  endTime?: boolean
-  category?: boolean
-  reminder?: boolean
   color?: boolean
+  isDefault?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -697,22 +686,20 @@ export type routineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type routineSelectScalar = {
   id?: boolean
-  title?: boolean
+  name?: boolean
   description?: boolean
-  dayOfWeek?: boolean
-  startTime?: boolean
-  endTime?: boolean
-  category?: boolean
-  reminder?: boolean
   color?: boolean
+  isDefault?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
 }
 
-export type routineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "dayOfWeek" | "startTime" | "endTime" | "category" | "reminder" | "color" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["routine"]>
+export type routineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "color" | "isDefault" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["routine"]>
 export type routineInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.userDefaultArgs<ExtArgs>
+  entries?: boolean | Prisma.routine$entriesArgs<ExtArgs>
+  _count?: boolean | Prisma.RoutineCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type routineIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.userDefaultArgs<ExtArgs>
@@ -725,17 +712,14 @@ export type $routinePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "routine"
   objects: {
     user: Prisma.$userPayload<ExtArgs>
+    entries: Prisma.$routine_entryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    title: string
+    name: string
     description: string | null
-    dayOfWeek: $Enums.DayOfWeek
-    startTime: string
-    endTime: string
-    category: string
-    reminder: boolean
     color: string | null
+    isDefault: boolean
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -1134,6 +1118,7 @@ readonly fields: routineFieldRefs;
 export interface Prisma__routineClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.userDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.userDefaultArgs<ExtArgs>>): Prisma.Prisma__userClient<runtime.Types.Result.GetResult<Prisma.$userPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  entries<T extends Prisma.routine$entriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.routine$entriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$routine_entryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1164,14 +1149,10 @@ export interface Prisma__routineClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface routineFieldRefs {
   readonly id: Prisma.FieldRef<"routine", 'String'>
-  readonly title: Prisma.FieldRef<"routine", 'String'>
+  readonly name: Prisma.FieldRef<"routine", 'String'>
   readonly description: Prisma.FieldRef<"routine", 'String'>
-  readonly dayOfWeek: Prisma.FieldRef<"routine", 'DayOfWeek'>
-  readonly startTime: Prisma.FieldRef<"routine", 'String'>
-  readonly endTime: Prisma.FieldRef<"routine", 'String'>
-  readonly category: Prisma.FieldRef<"routine", 'String'>
-  readonly reminder: Prisma.FieldRef<"routine", 'Boolean'>
   readonly color: Prisma.FieldRef<"routine", 'String'>
+  readonly isDefault: Prisma.FieldRef<"routine", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"routine", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"routine", 'DateTime'>
   readonly userId: Prisma.FieldRef<"routine", 'String'>
@@ -1573,6 +1554,30 @@ export type routineDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many routines to delete.
    */
   limit?: number
+}
+
+/**
+ * routine.entries
+ */
+export type routine$entriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the routine_entry
+   */
+  select?: Prisma.routine_entrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the routine_entry
+   */
+  omit?: Prisma.routine_entryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.routine_entryInclude<ExtArgs> | null
+  where?: Prisma.routine_entryWhereInput
+  orderBy?: Prisma.routine_entryOrderByWithRelationInput | Prisma.routine_entryOrderByWithRelationInput[]
+  cursor?: Prisma.routine_entryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Routine_entryScalarFieldEnum | Prisma.Routine_entryScalarFieldEnum[]
 }
 
 /**

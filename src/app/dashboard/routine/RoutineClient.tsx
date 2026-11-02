@@ -2,16 +2,14 @@
 
 import { useState } from "react";
 import DashboardShell from "@/components/dashboard/shared/DashboardShell";
-import ConfirmDialog from "@/components/dashboard/shared/ConfirmDialog";
-import { RoutineResponse, DayOfWeek, CreateRoutineInput } from "@server/types";
+import { RoutineResponse, RoutineEntryResponse, DayOfWeek } from "@server/types";
 import { SessionUser } from "@/lib/session";
 import { useRoutines } from "@/lib/hooks/useRoutines";
-import RoutineHeader from "@/components/dashboard/routine/RoutineHeader";
-import RoutineStatsBar from "@/components/dashboard/routine/RoutineStatsBar";
-import RoutineDaySelector from "@/components/dashboard/routine/RoutineDaySelector";
-import RoutineTimeline from "@/components/dashboard/routine/RoutineTimeline";
-import RoutineWeeklyGrid from "@/components/dashboard/routine/RoutineWeeklyGrid";
-import RoutineFormDialog from "@/components/dashboard/routine/RoutineFormDialog";
+import RoutineTopBar from "@/components/dashboard/routine/RoutineTopBar";
+import TimetableGrid from "@/components/dashboard/routine/TimetableGrid";
+import TimetableDayView from "@/components/dashboard/routine/TimetableDayView";
+import RoutineTimetableEmpty from "@/components/dashboard/routine/RoutineTimetableEmpty";
+import RoutineModals from "@/components/dashboard/routine/RoutineModals";
 
 interface RoutineClientProps {
   user: SessionUser;
@@ -20,133 +18,137 @@ interface RoutineClientProps {
 export default function RoutineClient({ user }: RoutineClientProps) {
   const {
     routines,
-    filteredRoutines,
-    stats,
+    activeRoutine,
+    setActiveRoutineId,
     loading,
     selectedDay,
     setSelectedDay,
-    categoryFilter,
-    setCategoryFilter,
+    dayStartOption,
+    setDayStartOption,
     searchQuery,
     setSearchQuery,
-    viewMode,
-    setViewMode,
+    categoryFilter,
+    setCategoryFilter,
+    filteredEntries,
     createRoutine,
     updateRoutine,
     deleteRoutine,
+    addEntry,
+    updateEntry,
+    deleteEntry,
   } = useRoutines();
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<"timetable" | "day">("timetable");
+  const [isRoutineModalOpen, setIsRoutineModalOpen] = useState(false);
   const [editingRoutine, setEditingRoutine] = useState<RoutineResponse | null>(null);
-  const [targetDay, setTargetDay] = useState<DayOfWeek>("MONDAY");
 
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEntryModalOpen, setIsEntryModalOpen] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<RoutineEntryResponse | null>(null);
+  const [defaultDay, setDefaultDay] = useState<DayOfWeek>("MONDAY");
+  const [defaultStartTime, setDefaultStartTime] = useState<string>("09:00");
 
-  const handleOpenCreate = (day?: DayOfWeek) => {
-    setEditingRoutine(null);
-    setTargetDay(day || (selectedDay === "ALL" ? "MONDAY" : selectedDay));
-    setIsDialogOpen(true);
-  };
+  const [deletingRoutineId, setDeletingRoutineId] = useState<string | null>(null);
+  const [deletingEntryId, setDeletingEntryId] = useState<string | null>(null);
 
-  const handleOpenEdit = (routine: RoutineResponse) => {
-    setEditingRoutine(routine);
-    setIsDialogOpen(true);
-  };
-
-  const handleFormSubmit = async (input: CreateRoutineInput) => {
-    if (editingRoutine) {
-      await updateRoutine(editingRoutine.id, input);
-    } else {
-      await createRoutine(input);
-    }
-  };
-
-  const handleConfirmDelete = async () => {
-    if (!deletingId) return;
-    setIsDeleting(true);
-    try {
-      await deleteRoutine(deletingId);
-      setDeletingId(null);
-    } finally {
-      setIsDeleting(false);
-    }
+  const handleOpenAddEntry = (day?: DayOfWeek, time?: string) => {
+    setEditingEntry(null);
+    if (day) setDefaultDay(day);
+    if (time) setDefaultStartTime(time);
+    setIsEntryModalOpen(true);
   };
 
   return (
     <DashboardShell
       user={user}
       role="USER"
-      title="Routine Planner"
-      subtitle="Manage your daily and weekly productivity schedule."
+      title="Routine Timetable"
+      subtitle="Recurring weekly timetable for university classes and study routines."
     >
-      <RoutineHeader
+      <RoutineTopBar
+        routines={routines}
+        activeRoutine={activeRoutine}
+        onSelectRoutine={setActiveRoutineId}
+        onOpenCreateRoutine={() => { setEditingRoutine(null); setIsRoutineModalOpen(true); }}
+        onOpenEditRoutine={(r) => { setEditingRoutine(r); setIsRoutineModalOpen(true); }}
+        onDeleteRoutine={(id) => setDeletingRoutineId(id)}
+        onOpenAddEntry={() => handleOpenAddEntry()}
+        dayStartOption={dayStartOption}
+        onToggleDayStart={setDayStartOption}
         viewMode={viewMode}
         onToggleViewMode={setViewMode}
-        onOpenCreate={() => handleOpenCreate()}
       />
 
-      <RoutineStatsBar stats={stats} routines={routines} />
-
-      {viewMode === "timeline" ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-          <RoutineDaySelector
-            selectedDay={selectedDay}
-            onSelectDay={setSelectedDay}
-            dayCounts={stats?.byDay ?? {
-              MONDAY: 0, TUESDAY: 0, WEDNESDAY: 0, THURSDAY: 0, FRIDAY: 0, SATURDAY: 0, SUNDAY: 0
-            }}
-            totalCount={routines.length}
-          />
-
-          {loading ? (
-            <div style={{ padding: "3rem", textAlign: "center", color: "var(--muted-foreground)" }}>
-              Loading routines…
-            </div>
-          ) : (
-            <RoutineTimeline
-              routines={filteredRoutines}
-              selectedDay={selectedDay}
-              categoryFilter={categoryFilter}
-              onSelectCategory={setCategoryFilter}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              onEdit={handleOpenEdit}
-              onDelete={(id) => setDeletingId(id)}
-              onOpenCreate={() => handleOpenCreate()}
-            />
-          )}
+      {loading ? (
+        <div style={{ padding: "4rem", textAlign: "center", color: "var(--muted-foreground)" }}>
+          Loading timetable…
         </div>
+      ) : !activeRoutine ? (
+        <RoutineTimetableEmpty
+          hasRoutines={false}
+          onAction={() => {
+            setEditingRoutine(null);
+            setIsRoutineModalOpen(true);
+          }}
+        />
+      ) : activeRoutine.entries.length === 0 ? (
+        <RoutineTimetableEmpty
+          hasRoutines={true}
+          onAction={() => handleOpenAddEntry()}
+        />
+      ) : viewMode === "timetable" ? (
+        <TimetableGrid
+          entries={filteredEntries}
+          dayStartOption={dayStartOption}
+          onEditEntry={(entry) => {
+            setEditingEntry(entry);
+            setIsEntryModalOpen(true);
+          }}
+          onDeleteEntry={(id) => setDeletingEntryId(id)}
+          onOpenAddEntryWithSlot={(day, time) => handleOpenAddEntry(day, time)}
+        />
       ) : (
-        <RoutineWeeklyGrid
-          routines={routines}
-          onEdit={handleOpenEdit}
-          onOpenCreateWithDay={(day) => handleOpenCreate(day)}
+        <TimetableDayView
+          entries={filteredEntries}
+          selectedDay={selectedDay}
+          onSelectDay={setSelectedDay}
+          dayStartOption={dayStartOption}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          categoryFilter={categoryFilter}
+          onSelectCategory={setCategoryFilter}
+          onEditEntry={(entry) => {
+            setEditingEntry(entry);
+            setIsEntryModalOpen(true);
+          }}
+          onDeleteEntry={(id) => setDeletingEntryId(id)}
+          onOpenAddEntryWithDay={(day) => handleOpenAddEntry(day)}
         />
       )}
 
-      <RoutineFormDialog
-        isOpen={isDialogOpen}
-        initialRoutine={editingRoutine}
-        defaultDay={targetDay}
-        onClose={() => {
-          setIsDialogOpen(false);
-          setEditingRoutine(null);
+      <RoutineModals
+        isRoutineModalOpen={isRoutineModalOpen}
+        editingRoutine={editingRoutine}
+        onCloseRoutineModal={() => { setIsRoutineModalOpen(false); setEditingRoutine(null); }}
+        onSubmitRoutineModal={async (input) => {
+          if (editingRoutine) await updateRoutine(editingRoutine.id, input);
+          else await createRoutine(input);
         }}
-        onSubmit={handleFormSubmit}
-      />
-
-      <ConfirmDialog
-        isOpen={Boolean(deletingId)}
-        title="Delete Routine"
-        message="Are you sure you want to delete this routine? This action cannot be undone."
-        confirmLabel="Delete"
-        isDestructive
-        isLoading={isDeleting}
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setDeletingId(null)}
+        isEntryModalOpen={isEntryModalOpen}
+        editingEntry={editingEntry}
+        defaultDay={defaultDay}
+        defaultStartTime={defaultStartTime}
+        onCloseEntryModal={() => { setIsEntryModalOpen(false); setEditingEntry(null); }}
+        onSubmitEntryModal={async (input) => {
+          if (editingEntry) await updateEntry(editingEntry.id, input);
+          else await addEntry(input);
+        }}
+        deletingRoutineId={deletingRoutineId}
+        deletingEntryId={deletingEntryId}
+        onCloseDeleteRoutine={() => setDeletingRoutineId(null)}
+        onCloseDeleteEntry={() => setDeletingEntryId(null)}
+        onDeleteRoutine={deleteRoutine}
+        onDeleteEntry={deleteEntry}
       />
     </DashboardShell>
   );
 }
-

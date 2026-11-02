@@ -111,27 +111,43 @@ enum UserRole {
 }
 
 // ─────────────────────────────────────────────────
-// Routine Planner
+// Weekly Timetable / Routine Planner
 // ─────────────────────────────────────────────────
 
 model routine {
+  id          String          @id @default(cuid())
+  name        String
+  description String?
+  color       String?         // Theme accent color
+  isDefault   Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  userId      String
+  user        user            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entries     routine_entry[]
+
+  @@index([userId])
+}
+
+model routine_entry {
   id          String      @id @default(cuid())
   title       String
   description String?
+  category    String      @default("General") // e.g. "Lecture", "Lab", "Study", "Fitness", "Work"
   dayOfWeek   DayOfWeek
-  startTime   String      // HH:mm format (e.g., "07:00", "14:30")
-  endTime     String      // HH:mm format (e.g., "08:30", "16:00")
-  category    String      @default("General")
-  reminder    Boolean     @default(false)
-  color       String?     // Optional accent color hex
+  startTime   String      // HH:mm 24h format (e.g. "09:00")
+  endTime     String      // HH:mm 24h format (e.g. "10:30")
+  location    String?     // e.g. "Room 304", "Campus Gym", "Home"
+  color       String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-  userId      String
-  user        user        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routineId   String
+  routine     routine     @relation(fields: [routineId], references: [id], onDelete: Cascade)
 
-  @@index([userId, dayOfWeek])
-  @@index([userId, startTime])
+  @@index([routineId, dayOfWeek])
+  @@index([routineId, startTime])
 }
 
 enum DayOfWeek {

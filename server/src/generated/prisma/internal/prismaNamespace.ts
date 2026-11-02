@@ -402,7 +402,8 @@ export const ModelName = {
   account: 'account',
   verification: 'verification',
   task: 'task',
-  routine: 'routine'
+  routine: 'routine',
+  routine_entry: 'routine_entry'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification" | "task" | "routine"
+    modelProps: "user" | "session" | "account" | "verification" | "task" | "routine" | "routine_entry"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -866,6 +867,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    routine_entry: {
+      payload: Prisma.$routine_entryPayload<ExtArgs>
+      fields: Prisma.routine_entryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.routine_entryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.routine_entryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>
+        }
+        findFirst: {
+          args: Prisma.routine_entryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.routine_entryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>
+        }
+        findMany: {
+          args: Prisma.routine_entryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>[]
+        }
+        create: {
+          args: Prisma.routine_entryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>
+        }
+        createMany: {
+          args: Prisma.routine_entryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.routine_entryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>[]
+        }
+        delete: {
+          args: Prisma.routine_entryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>
+        }
+        update: {
+          args: Prisma.routine_entryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>
+        }
+        deleteMany: {
+          args: Prisma.routine_entryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.routine_entryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.routine_entryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>[]
+        }
+        upsert: {
+          args: Prisma.routine_entryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$routine_entryPayload>
+        }
+        aggregate: {
+          args: Prisma.Routine_entryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRoutine_entry>
+        }
+        groupBy: {
+          args: Prisma.routine_entryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Routine_entryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.routine_entryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Routine_entryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -984,20 +1059,34 @@ export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof Task
 
 export const RoutineScalarFieldEnum = {
   id: 'id',
-  title: 'title',
+  name: 'name',
   description: 'description',
-  dayOfWeek: 'dayOfWeek',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  category: 'category',
-  reminder: 'reminder',
   color: 'color',
+  isDefault: 'isDefault',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
 } as const
 
 export type RoutineScalarFieldEnum = (typeof RoutineScalarFieldEnum)[keyof typeof RoutineScalarFieldEnum]
+
+
+export const Routine_entryScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  category: 'category',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  location: 'location',
+  color: 'color',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  routineId: 'routineId'
+} as const
+
+export type Routine_entryScalarFieldEnum = (typeof Routine_entryScalarFieldEnum)[keyof typeof Routine_entryScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1277,6 +1366,7 @@ export type GlobalOmitConfig = {
   verification?: Prisma.verificationOmit
   task?: Prisma.taskOmit
   routine?: Prisma.routineOmit
+  routine_entry?: Prisma.routine_entryOmit
 }
 
 /* Types for Logging */
