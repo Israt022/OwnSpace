@@ -32,6 +32,7 @@ model user {
   sessions      session[]
   accounts      account[]
   tasks         task[]
+  routines      routine[]
 }
 
 model session {
@@ -107,4 +108,38 @@ enum TaskPriority {
 enum UserRole {
   USER
   ADMIN
+}
+
+// ─────────────────────────────────────────────────
+// Routine Planner
+// ─────────────────────────────────────────────────
+
+model routine {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  dayOfWeek   DayOfWeek
+  startTime   String      // HH:mm format (e.g., "07:00", "14:30")
+  endTime     String      // HH:mm format (e.g., "08:30", "16:00")
+  category    String      @default("General")
+  reminder    Boolean     @default(false)
+  color       String?     // Optional accent color hex
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  userId      String
+  user        user        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, dayOfWeek])
+  @@index([userId, startTime])
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
 }

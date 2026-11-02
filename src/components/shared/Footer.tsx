@@ -221,60 +221,61 @@ export default function Footer() {
             </div>
 
             {/* Animation styles */}
-            <style jsx>{`
-        .footer-marquee {
-          animation: footer-marquee 42s linear infinite;
-        }
+            <style>{`
+                .footer-marquee {
+                    animation: footer-marquee 42s linear infinite;
+                }
 
-        .footer-glow {
-          animation: footer-float 12s ease-in-out infinite alternate;
-        }
+                .footer-glow {
+                    animation: footer-float 12s ease-in-out infinite alternate;
+                }
 
-        .footer-glow-delay {
-          animation-delay: -6s;
-        }
+                .footer-glow-delay {
+                    animation-delay: -6s;
+                }
 
-        .footer-light {
-          animation: footer-light 8s ease-in-out infinite alternate;
-        }
+                .footer-light {
+                    animation: footer-light 8s ease-in-out infinite alternate;
+                }
 
-        @keyframes footer-marquee {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
+                @keyframes footer-marquee {
+                    from {
+                    transform: translateX(0);
+                    }
+                    to {
+                    transform: translateX(-50%);
+                    }
+                }
 
-        @keyframes footer-float {
-          from {
-            transform: translate3d(-12px, 0, 0);
-          }
-          to {
-            transform: translate3d(18px, 20px, 0);
-          }
-        }
+                @keyframes footer-float {
+                    from {
+                    transform: translate3d(-12px, 0, 0);
+                    }
+                    to {
+                    transform: translate3d(18px, 20px, 0);
+                    }
+                }
 
-        @keyframes footer-light {
-          from {
-            transform: translateX(-30%);
-            opacity: 0.35;
-          }
-          to {
-            transform: translateX(230%);
-            opacity: 0.9;
-          }
-        }
+                @keyframes footer-light {
+                    from {
+                    transform: translateX(-30%);
+                    opacity: 0.35;
+                    }
+                    to {
+                    transform: translateX(230%);
+                    opacity: 0.9;
+                    }
+                }
 
-        @media (prefers-reduced-motion: reduce) {
-          .footer-marquee,
-          .footer-glow,
-          .footer-light {
-            animation: none;
-          }
-        }
-      `}</style>
+                @media (prefers-reduced-motion: reduce) {
+                    .footer-marquee,
+                    .footer-glow,
+                    .footer-light {
+                    animation: none;
+                    }
+                }
+                `}
+            </style>
         </footer>
     );
 }

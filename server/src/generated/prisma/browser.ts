@@ -42,3 +42,8 @@ export type verification = Prisma.verificationModel
  * 
  */
 export type task = Prisma.taskModel
+/**
+ * Model routine
+ * 
+ */
+export type routine = Prisma.routineModel
