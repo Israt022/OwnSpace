@@ -17,6 +17,7 @@ import {
   ArrowLeftRight,
 } from "lucide-react";
 import SidebarNavItem from "./SidebarNavItem";
+import OwnSpaceLogo from "@/components/shared/OwnSpaceLogo";
 import { SessionUser } from "@/lib/session";
 
 interface DashboardSidebarProps {
@@ -74,10 +75,13 @@ export default function DashboardSidebar({
       }}
     >
       <div>
-        {/* Workspace Title & Role Badge */}
-        <div style={{ padding: "0 0.5rem 1.25rem", borderBottom: "1px solid var(--border)", marginBottom: "1rem" }}>
+        {/* Brand Logo & Workspace Header */}
+        <div style={{ padding: "0 0.5rem 1.15rem", borderBottom: "1px solid var(--border)", marginBottom: "1rem" }}>
+          <div style={{ marginBottom: "0.85rem" }}>
+            <OwnSpaceLogo size={28} />
+          </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: "0.875rem", fontWeight: 700, color: "var(--foreground)" }}>
+            <span style={{ fontSize: "0.8125rem", fontWeight: 700, color: "var(--foreground)" }}>
               {role === "ADMIN" ? "Admin Workspace" : "Personal Workspace"}
             </span>
             <span

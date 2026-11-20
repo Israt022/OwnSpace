@@ -1,56 +1,49 @@
-
 import Link from "next/link";
+import Image from "next/image";
 
 type OwnSpaceLogoProps = {
-    href?: string;
-    showText?: boolean;
-    size?: number;
-    className?: string;
+  href?: string;
+  showText?: boolean;
+  size?: number;
+  className?: string;
+  textClassName?: string;
 };
 
 export default function OwnSpaceLogo({
-    href = "/",
-    showText = true,
-    size = 40,
-    className = "",
+  href = "/",
+  showText = true,
+  size = 36,
+  className = "",
+  textClassName = "",
 }: OwnSpaceLogoProps) {
-    return (
-        <Link
-            href={href}
-            aria-label="OwnSpace home"
-            className={`group inline-flex shrink-0 items-center gap-2.5 no-underline ${className}`}
-        >
-            {/* Custom OwnSpace icon */}
-            <span
-                className="relative flex shrink-0 items-center justify-center overflow-hidden rounded-[13px] bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/20 transition-transform duration-300 group-hover:scale-105"
-                style={{ width: size, height: size }}
-            >
-                <svg
-                    viewBox="0 0 40 40"
-                    width={size * 0.72}
-                    height={size * 0.72}
-                    fill="none"
-                    aria-hidden="true"
-                >
-                    <path
-                        d="M20 3.5 36.5 20 20 36.5 3.5 20 20 3.5Z"
-                        stroke="white"
-                        strokeWidth="2.5"
-                        strokeLinejoin="round"
-                    />
-                    <circle cx="20" cy="20" r="7" fill="white" />
-                    <circle cx="20" cy="20" r="3" fill="#6366f1" />
-                </svg>
-            </span>
+  return (
+    <Link
+      href={href}
+      aria-label="OwnSpace home"
+      className={`group inline-flex shrink-0 items-center gap-2.5 no-underline ${className}`}
+    >
+      {/* Official OwnSpace 3D isometric portal mark */}
+      <span
+        className="relative flex shrink-0 items-center justify-center transition-transform duration-200 ease-out group-hover:scale-105"
+        style={{ width: size, height: size }}
+      >
+        <Image
+          src="/LOGO/ownspace-icon.png"
+          alt="OwnSpace logo"
+          width={size * 2}
+          height={size * 2}
+          priority
+          className="h-full w-full object-contain select-none"
+        />
+      </span>
 
-            {showText && (
-                <span className="whitespace-nowrap text-[1.35rem] font-extrabold tracking-[-0.055em] text-[var(--color-text)]">
-                    Own<span className="text-indigo-400">Space</span>
-                    <span className="ml-1 align-top text-[9px] font-semibold tracking-normal text-indigo-400">
-                        ®
-                    </span>
-                </span>
-            )}
-        </Link>
-    );
+      {showText && (
+        <span
+          className={`whitespace-nowrap text-[1.32rem] font-extrabold tracking-[-0.035em] text-[var(--color-text)] select-none transition-colors duration-200 ${textClassName}`}
+        >
+          Own<span className="text-indigo-600 dark:text-indigo-400">Space</span>
+        </span>
+      )}
+    </Link>
+  );
 }
