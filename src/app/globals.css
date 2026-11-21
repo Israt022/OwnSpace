@@ -99,7 +99,7 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .5), 0 8px 10px -6px rgb(0 0 0 / .4);
 }
 
-/* ── Tailwind v4 Theme Mapping ───────────────────────────────────────────── */
+/*  Tailwind v4 Theme Mapping */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -141,7 +141,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Clean page background ───────────────────────────────────────────────── */
+/*  Clean page background  */
 .auth-bg {
   position: relative;
   min-height: 100vh;
@@ -160,7 +160,7 @@ body {
   pointer-events: none;
 }
 
-/* ── Glass card ───────────────────────────────────────────────────────── */
+/* Glass card */
 .glass-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -168,7 +168,7 @@ body {
   box-shadow: var(--shadow-xl);
 }
 
-/* ── Form elements ──────────────────────────────────────────────────── */
+/* Form elements */
 .input-field {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -203,7 +203,7 @@ body {
   margin-bottom: 0.375rem;
 }
 
-/* ── Buttons ─────────────────────────────────────────────────────────── */
+/* Buttons */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -262,7 +262,7 @@ body {
   cursor: not-allowed;
 }
 
-/* ── Error / success messages ─────────────────────────────────────── */
+/* Error / success messages */
 .field-error {
   font-size: 0.8125rem;
   color: var(--color-error);
@@ -287,7 +287,7 @@ body {
   font-size: 0.875rem;
 }
 
-/* ── Divider ──────────────────────────────────────────────────────── */
+/* Divider */
 .divider {
   display: flex;
   align-items: center;
@@ -304,7 +304,7 @@ body {
   background: var(--border);
 }
 
-/* ── Spinner ──────────────────────────────────────────────────────── */
+/* Spinner */
 .spinner {
   width: 1.125rem;
   height: 1.125rem;
@@ -321,7 +321,7 @@ body {
   }
 }
 
-/* ── Navbar ────────────────────────────────────────────────────────── */
+/* Navbar */
 .navbar {
   position: sticky;
   top: 0;
@@ -334,7 +334,7 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-/* ── Theme Toggle Button ─────────────────────────────────────────── */
+/* Theme Toggle Button */
 .theme-toggle-btn {
   display: inline-flex;
   align-items: center;
@@ -360,7 +360,7 @@ body {
   outline-offset: 2px;
 }
 
-/* ── Avatar ─────────────────────────────────────────────────────────── */
+/* Avatar */
 .avatar {
   width: 2.25rem;
   height: 2.25rem;
@@ -384,7 +384,7 @@ body {
   flex-shrink: 0;
 }
 
-/* ── Profile picture upload area ────────────────────────────────── */
+/* Profile picture upload area */
 .avatar-upload-area {
   position: relative;
   width: 7rem;
@@ -408,7 +408,7 @@ body {
   border: 2px solid var(--primary);
 }
 
-/* ── Page transitions ────────────────────────────────────────────── */
+/* Page transitions */
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -425,7 +425,7 @@ body {
   animation: fade-in-up 0.4s ease both;
 }
 
-/* ── Mobile menu transition ─────────────────────────────────────── */
+/* Mobile menu transition */
 @keyframes slide-down {
   from {
     opacity: 0;
@@ -442,7 +442,7 @@ body {
   animation: slide-down 0.2s ease both;
 }
 
-/* ── Hero Buttons ────────────────────────────────────────────────── */
+/* Hero Buttons */
 .hero-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -484,7 +484,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* ── Dashboard & Task Tracking Specific Styles ────────────────────── */
+/* Dashboard & Task Tracking Specific Styles  */
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -646,9 +646,7 @@ body {
   animation: fade-in-up 0.25s ease both;
 }
 
-/* ══ Home page ═══════════════════════════════════════════════════════════
-   Append this block to the END of globals.css
-   ═══════════════════════════════════════════════════════════════════════ */
+/*  Home page  */
 
 /* Hero layout */
 .hero-section {
