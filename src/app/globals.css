@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Theme tokens ────────────────────────────────────────────────────────── */
+/* Theme tokens */
 :root {
   /* Specification Light Mode */
   --background: #FFFFFF;
