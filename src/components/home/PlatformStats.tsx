@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, ListTodo, CheckCircle2, TrendingUp } from "lucide-react";
+import { Users, ListTodo, CheckCircle2 } from "lucide-react";
 
 type Stats = {
     totalUsers: number;
