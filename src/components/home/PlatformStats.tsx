@@ -68,41 +68,43 @@ export default function PlatformStats() {
     if (error) {
         return (
             <section className="os-platform-stats">
-                <div className="os-stats-heading">
-                    <span className="os-stats-eyebrow">
-                        <span className="os-stats-dot" />
-                        THE OWNSPACE COMMUNITY
-                    </span>
+                <div className="os-container">
+                    <div className="os-stats-heading">
+                        <span className="os-stats-eyebrow">
+                            <span className="os-stats-dot" />
+                            THE OWNSPACE COMMUNITY
+                        </span>
 
-                    <h2>
-                        Small steps.
-                        <br />
-                        <span>Real progress.</span>
-                    </h2>
+                        <h2>
+                            Small steps.
+                            <br />
+                            <span>Real progress.</span>
+                        </h2>
 
-                    <p>
-                        Every great routine starts with one small step.
-                        Create your space, organize your day, and make
-                        progress at your own pace.
-                    </p>
+                        <p>
+                            Every great routine starts with one small step.
+                            Create your space, organize your day, and make
+                            progress at your own pace.
+                        </p>
 
-                    <a href="/sign-up" className="os-stats-cta">
-                        Start your journey <span>↗</span>
-                    </a>
-                </div>
-
-                <div className="os-stats-unavailable">
-                    <div className="os-stats-decoration">
-                        <span>01</span>
-                        <div className="os-stats-line" />
-                        <span>03</span>
+                        <a href="/sign-up" className="os-stats-cta">
+                            Start your journey <span>↗</span>
+                        </a>
                     </div>
 
-                    <div className="os-stats-message">
-                        <span className="os-stats-message-icon">✳</span>
-                        <div>
-                            <strong>Your progress starts here</strong>
-                            <p>Build habits. Track tasks. Own your day.</p>
+                    <div className="os-stats-unavailable">
+                        <div className="os-stats-decoration">
+                            <span>01</span>
+                            <div className="os-stats-line" />
+                            <span>03</span>
+                        </div>
+
+                        <div className="os-stats-message">
+                            <span className="os-stats-message-icon">✳</span>
+                            <div>
+                                <strong>Your progress starts here</strong>
+                                <p>Build habits. Track tasks. Own your day.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -112,31 +114,33 @@ export default function PlatformStats() {
 
     return (
         <section className="os-platform-stats" aria-label="OwnSpace platform statistics">
-            <div className="os-stats-heading">
-                <span>OWNSPACE IN NUMBERS</span>
-                <h2>Small steps. Real progress.</h2>
-                <p>A look at the activity happening across OwnSpace.</p>
-            </div>
+            <div className="os-container">
+                <div className="os-stats-heading">
+                    <span>OWNSPACE IN NUMBERS</span>
+                    <h2>Small steps. Real progress.</h2>
+                    <p>A look at the activity happening across OwnSpace.</p>
+                </div>
 
-            <div className="os-stats-grid">
-                {items.map(({ key, label, icon: Icon }) => (
-                    <div className="os-stat-item" key={key}>
-                        <Icon size={21} aria-hidden="true" />
-                        <div className="os-stat-number">
-                            {stats ? <CountUp value={stats[key]} /> : "—"}
+                <div className="os-stats-grid">
+                    {items.map(({ key, label, icon: Icon }) => (
+                        <div className="os-stat-item" key={key}>
+                            <Icon size={21} aria-hidden="true" />
+                            <div className="os-stat-number">
+                                {stats ? <CountUp value={stats[key]} /> : "—"}
+                            </div>
+                            <p>{label}</p>
                         </div>
-                        <p>{label}</p>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
 
-            {stats && (
-                <p className="os-stats-note">
-                    {stats.totalTasks > 0
-                        ? `${Math.round((stats.completedTasks / stats.totalTasks) * 100)}% of all recorded tasks completed`
-                        : "Your first task is the start of something great."}
-                </p>
-            )}
+                {stats && (
+                    <p className="os-stats-note">
+                        {stats.totalTasks > 0
+                            ? `${Math.round((stats.completedTasks / stats.totalTasks) * 100)}% of all recorded tasks completed`
+                            : "Your first task is the start of something great."}
+                    </p>
+                )}
+            </div>
         </section>
     );
 }

@@ -655,19 +655,26 @@ body {
   min-height: calc(100vh - var(--navbar-h));
   display: flex;
   align-items: center;
-  padding: 4rem 1.5rem;
+  padding: 4rem 0;
 }
 
 .hero-grid {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1120px;
+  max-width: 80rem;
   margin: 0 auto;
+  padding-inline: 1.25rem;
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: 3.5rem;
   align-items: center;
+}
+
+@media (min-width: 640px) {
+  .hero-grid {
+    padding-inline: 2rem;
+  }
 }
 
 .hero-copy {
@@ -1212,7 +1219,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 88px clamp(20px, 6vw, 88px) 56px;
+  padding: 88px 0 56px;
   background: #090d18;
   color: #f8fafc;
 }
@@ -1226,12 +1233,19 @@ body {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1240px;
+  max-width: 80rem;
   margin-inline: auto;
+  padding-inline: 1.25rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
   align-items: center;
   gap: clamp(36px, 6vw, 84px);
+}
+
+@media (min-width: 640px) {
+  .ownspace-hero-grid {
+    padding-inline: 2rem;
+  }
 }
 
 .ownspace-hero-copy {
@@ -1428,13 +1442,20 @@ body {
   align-items: center;
   gap: 17px;
   width: 100%;
-  max-width: 1240px;
+  max-width: 80rem;
   margin: auto auto 0;
+  padding-inline: 1.25rem;
   padding-top: 55px;
   color: #6f7b91;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.16em;
+}
+
+@media (min-width: 640px) {
+  .ownspace-hero-bottom {
+    padding-inline: 2rem;
+  }
 }
 
 .ownspace-bottom-line {
@@ -1496,7 +1517,7 @@ body {
 @media (max-width: 900px) {
   .ownspace-hero {
     min-height: auto;
-    padding: 76px 25px 38px;
+    padding: 76px 0 38px;
   }
 
   .ownspace-hero-grid {
@@ -1521,7 +1542,7 @@ body {
 
 @media (max-width: 520px) {
   .ownspace-hero {
-    padding: 58px 19px 28px;
+    padding: 58px 0 28px;
   }
 
   .ownspace-hero-title {
@@ -1790,7 +1811,7 @@ body {
 
 .os-section {
   position: relative;
-  padding: 110px 24px;
+  padding: 110px 0;
   overflow: hidden;
   background: #090d18;
   color: #f1f5f9;
@@ -1798,8 +1819,15 @@ body {
 
 .os-container {
   width: 100%;
-  max-width: 1160px;
+  max-width: 80rem;
   margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .os-container {
+    padding-inline: 2rem;
+  }
 }
 
 .os-kicker {
@@ -2406,7 +2434,7 @@ body {
   position: relative;
   display: grid;
   min-height: 490px;
-  padding: 100px 24px;
+  padding: 100px 0;
   place-items: center;
   overflow: hidden;
   isolation: isolate;
@@ -2538,7 +2566,7 @@ body {
 
 @media (max-width: 760px) {
   .os-section {
-    padding: 78px 21px;
+    padding: 78px 0;
   }
 
   .os-feature-list {
@@ -2640,7 +2668,7 @@ body {
 
   .os-final {
     min-height: 430px;
-    padding: 80px 21px;
+    padding: 80px 0;
   }
 
   .os-final-orbit.orbit-three {
@@ -2651,7 +2679,7 @@ body {
 
 @media (max-width: 420px) {
   .os-section {
-    padding: 65px 18px;
+    padding: 65px 0;
   }
 
   .os-section-description {
@@ -2706,7 +2734,7 @@ body {
 }
 
 .os-platform-stats {
-  padding: 90px 24px;
+  padding: 90px 0;
   overflow: hidden;
   background:
     radial-gradient(ellipse at 50% 0%, rgb(99 102 241 / 10%), transparent 60%),
@@ -2742,7 +2770,8 @@ body {
 .os-stats-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 1000px;
+  width: 100%;
+  max-width: 100%;
   margin: auto;
   border-top: 1px solid rgb(165 180 252 / 18%);
   border-bottom: 1px solid rgb(165 180 252 / 18%);
@@ -2788,7 +2817,7 @@ body {
 
 @media (max-width: 600px) {
   .os-platform-stats {
-    padding: 64px 16px;
+    padding: 64px 0;
   }
 
   .os-stats-grid {
