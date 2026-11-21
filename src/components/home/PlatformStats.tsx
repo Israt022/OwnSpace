@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, ListTodo, CheckCircle2 } from "lucide-react";
+import { Users, ListTodo, CheckCircle2, CalendarClock } from "lucide-react";
 
 type Stats = {
     totalUsers: number;
     totalTasks: number;
     completedTasks: number;
+    totalRoutines: number;
 };
 
 const items = [
     { key: "totalUsers", label: "Registered users", icon: Users },
     { key: "totalTasks", label: "Tasks created", icon: ListTodo },
     { key: "completedTasks", label: "Tasks completed", icon: CheckCircle2 },
+    { key: "totalRoutines", label: "Routines created", icon: CalendarClock },
 ] as const;
 
 function CountUp({ value }: { value: number }) {
@@ -96,7 +98,7 @@ export default function PlatformStats() {
                         <div className="os-stats-decoration">
                             <span>01</span>
                             <div className="os-stats-line" />
-                            <span>03</span>
+                            <span>04</span>
                         </div>
 
                         <div className="os-stats-message">

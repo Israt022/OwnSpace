@@ -7,13 +7,14 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
-        const [totalUsers, totalTasks, completedTasks] =
+        const [totalUsers, totalTasks, completedTasks, totalRoutines] =
             await Promise.all([
                 prisma.user.count(),
                 prisma.task.count(),
                 prisma.task.count({
                     where: { completed: true },
                 }),
+                prisma.routine.count(),
             ]);
 
         return NextResponse.json({
@@ -22,6 +23,7 @@ export async function GET() {
                 totalUsers,
                 totalTasks,
                 completedTasks,
+                totalRoutines,
             },
         });
     } catch (error) {
