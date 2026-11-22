@@ -9,6 +9,7 @@ interface SidebarNavItemProps {
   icon: LucideIcon;
   isActive: boolean;
   badge?: string | number;
+  isCollapsed?: boolean;
   onClick?: () => void;
 }
 
@@ -18,18 +19,22 @@ export default function SidebarNavItem({
   icon: Icon,
   isActive,
   badge,
+  isCollapsed = false,
   onClick,
 }: SidebarNavItemProps) {
   return (
     <Link
       href={href}
       onClick={onClick}
+      className="nav-item-link"
+      title={isCollapsed ? label : undefined}
       style={{
+        position: "relative",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        gap: "0.75rem",
-        padding: "0.65rem 0.875rem",
+        justifyContent: isCollapsed ? "center" : "space-between",
+        gap: isCollapsed ? 0 : "0.75rem",
+        padding: isCollapsed ? "0.65rem 0" : "0.65rem 0.875rem",
         borderRadius: "0.625rem",
         fontSize: "0.875rem",
         fontWeight: isActive ? 600 : 500,
@@ -52,12 +57,12 @@ export default function SidebarNavItem({
         }
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: isCollapsed ? 0 : "0.75rem" }}>
         <Icon size={18} strokeWidth={isActive ? 2.25 : 1.75} />
-        <span>{label}</span>
+        {!isCollapsed && <span>{label}</span>}
       </div>
 
-      {badge !== undefined && (
+      {badge !== undefined && !isCollapsed && (
         <span
           style={{
             fontSize: "0.75rem",
@@ -69,6 +74,43 @@ export default function SidebarNavItem({
           }}
         >
           {badge}
+        </span>
+      )}
+
+      {badge !== undefined && isCollapsed && (
+        <span
+          style={{
+            position: "absolute",
+            top: "6px",
+            right: "8px",
+            width: "6px",
+            height: "6px",
+            borderRadius: "50%",
+            backgroundColor: "var(--color-brand-500)",
+          }}
+        />
+      )}
+
+      {isCollapsed && (
+        <span
+          className="nav-tooltip"
+          style={{
+            position: "absolute",
+            left: "calc(100% + 12px)",
+            top: "50%",
+            zIndex: 1000,
+            padding: "0.35rem 0.65rem",
+            borderRadius: "0.375rem",
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+            pointerEvents: "none",
+            backgroundColor: "var(--foreground)",
+            color: "var(--background)",
+            boxShadow: "0 4px 14px rgba(0,0,0,0.25)",
+          }}
+        >
+          {label}
         </span>
       )}
     </Link>

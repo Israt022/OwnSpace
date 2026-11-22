@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 import {
   LayoutDashboard,
   CheckSquare,
@@ -13,22 +12,25 @@ import {
   Settings,
   Users,
   Activity,
-  Shield,
-  ArrowLeftRight,
 } from "lucide-react";
 import SidebarNavItem from "./SidebarNavItem";
-import OwnSpaceLogo from "@/components/shared/OwnSpaceLogo";
+import SidebarHeader from "./SidebarHeader";
+import SidebarRoleSwitcher from "./SidebarRoleSwitcher";
 import { SessionUser } from "@/lib/session";
 
 interface DashboardSidebarProps {
   user: SessionUser;
   role: "USER" | "ADMIN";
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
   onNavClick?: () => void;
 }
 
 export default function DashboardSidebar({
   user,
   role,
+  isCollapsed = false,
+  onToggleCollapse,
   onNavClick,
 }: DashboardSidebarProps) {
   const pathname = usePathname();
@@ -64,41 +66,24 @@ export default function DashboardSidebar({
   return (
     <aside
       style={{
-        width: "250px",
+        width: isCollapsed ? "72px" : "250px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        padding: "1.25rem 1rem",
+        padding: isCollapsed ? "1.25rem 0.5rem" : "1.25rem 1rem",
         borderRight: "1px solid var(--border)",
         background: "var(--card)",
+        transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+        boxSizing: "border-box",
       }}
     >
       <div>
-        {/* Brand Logo & Workspace Header */}
-        <div style={{ padding: "0 0.5rem 1.15rem", borderBottom: "1px solid var(--border)", marginBottom: "1rem" }}>
-          <div style={{ marginBottom: "0.85rem" }}>
-            <OwnSpaceLogo size={28} />
-          </div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: "0.8125rem", fontWeight: 700, color: "var(--foreground)" }}>
-              {role === "ADMIN" ? "Admin Workspace" : "Personal Workspace"}
-            </span>
-            <span
-              style={{
-                fontSize: "0.6875rem",
-                fontWeight: 700,
-                padding: "0.15rem 0.5rem",
-                borderRadius: "1rem",
-                background: role === "ADMIN" ? "rgba(99, 102, 241, 0.15)" : "var(--muted)",
-                color: role === "ADMIN" ? "var(--color-brand-500)" : "var(--muted-foreground)",
-                textTransform: "uppercase",
-              }}
-            >
-              {role}
-            </span>
-          </div>
-        </div>
+        <SidebarHeader
+          role={role}
+          isCollapsed={isCollapsed}
+          onToggleCollapse={onToggleCollapse}
+        />
 
         {/* Navigation list */}
         <nav style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
@@ -109,6 +94,7 @@ export default function DashboardSidebar({
               href={item.href}
               icon={item.icon}
               isActive={isItemActive(item.href)}
+              isCollapsed={isCollapsed}
               onClick={onNavClick}
             />
           ))}
@@ -117,46 +103,11 @@ export default function DashboardSidebar({
 
       {/* Bottom Switcher Card for Admin */}
       {user.role === "ADMIN" && (
-        <div
-          style={{
-            padding: "0.875rem",
-            borderRadius: "0.75rem",
-            background: "var(--muted)",
-            border: "1px solid var(--border)",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-            <Shield size={16} style={{ color: "var(--color-brand-500)" }} />
-            <span style={{ fontSize: "0.8125rem", fontWeight: 600, color: "var(--foreground)" }}>
-              Role Switcher
-            </span>
-          </div>
-          <p style={{ margin: "0 0 0.75rem", fontSize: "0.75rem", color: "var(--muted-foreground)" }}>
-            {role === "ADMIN"
-              ? "Switch to manage your own personal tasks."
-              : "Switch back to platform administration."}
-          </p>
-          <Link
-            href={role === "ADMIN" ? "/dashboard?view=user" : "/admin"}
-            onClick={onNavClick}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.4rem",
-              padding: "0.45rem",
-              borderRadius: "0.5rem",
-              fontSize: "0.75rem",
-              fontWeight: 600,
-              color: "var(--primary-foreground)",
-              background: "var(--primary)",
-              textDecoration: "none",
-            }}
-          >
-            <ArrowLeftRight size={13} />
-            {role === "ADMIN" ? "Open My Tasks" : "Open Admin"}
-          </Link>
-        </div>
+        <SidebarRoleSwitcher
+          role={role}
+          isCollapsed={isCollapsed}
+          onNavClick={onNavClick}
+        />
       )}
     </aside>
   );

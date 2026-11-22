@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import DashboardSidebar from "./DashboardSidebar";
 import DashboardHeader from "./DashboardHeader";
+import DashboardMobileDrawer from "./DashboardMobileDrawer";
 import { SessionUser } from "@/lib/session";
 
 interface DashboardShellProps {
@@ -23,6 +24,49 @@ export default function DashboardShell({
   children,
 }: DashboardShellProps) {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleCollapse = useCallback(() => {
+    setIsCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("ownspace_sidebar_collapsed", String(next));
+      } catch {
+        // ignore storage errors
+      }
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      try {
+        const saved = localStorage.getItem("ownspace_sidebar_collapsed");
+        if (saved !== null) {
+          setIsCollapsed(saved === "true");
+        }
+      } catch {
+        // ignore storage errors
+      }
+    });
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b") {
+        const target = e.target as HTMLElement | null;
+        const isEditing =
+          target?.tagName === "INPUT" ||
+          target?.tagName === "TEXTAREA" ||
+          target?.isContentEditable;
+        if (!isEditing) {
+          e.preventDefault();
+          toggleCollapse();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggleCollapse]);
 
   return (
     <div
@@ -40,46 +84,27 @@ export default function DashboardShell({
         style={{
           height: "100%",
           overflowY: "auto",
+          overflowX: "hidden",
           flexShrink: 0,
+          width: isCollapsed ? "72px" : "250px",
+          transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
-        <DashboardSidebar user={user} role={role} />
+        <DashboardSidebar
+          user={user}
+          role={role}
+          isCollapsed={isCollapsed}
+          onToggleCollapse={toggleCollapse}
+        />
       </div>
 
-      {/* Mobile Drawer Backdrop & Drawer */}
-      {mobileDrawerOpen && (
-        <>
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backdropFilter: "blur(2px)",
-              zIndex: 90,
-            }}
-            onClick={() => setMobileDrawerOpen(false)}
-          />
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              zIndex: 100,
-              width: "260px",
-              background: "var(--card)",
-              boxShadow: "var(--shadow-xl)",
-              animation: "slide-right 0.25s ease both",
-            }}
-          >
-            <DashboardSidebar
-              user={user}
-              role={role}
-              onNavClick={() => setMobileDrawerOpen(false)}
-            />
-          </div>
-        </>
-      )}
+      {/* Mobile Drawer */}
+      <DashboardMobileDrawer
+        isOpen={mobileDrawerOpen}
+        onClose={() => setMobileDrawerOpen(false)}
+        user={user}
+        role={role}
+      />
 
       {/* Main Content Area */}
       <div
@@ -97,6 +122,8 @@ export default function DashboardShell({
           title={title}
           subtitle={subtitle}
           onMobileMenuToggle={() => setMobileDrawerOpen(true)}
+          isSidebarCollapsed={isCollapsed}
+          onDesktopSidebarToggle={toggleCollapse}
           actions={actions}
         />
 
@@ -120,6 +147,11 @@ export default function DashboardShell({
         .desktop-sidebar-container {
           display: block;
         }
+        @media (min-width: 769px) {
+          .desktop-only {
+            display: inline-flex !important;
+          }
+        }
         @media (max-width: 768px) {
           .desktop-sidebar-container {
             display: none !important;
@@ -131,6 +163,17 @@ export default function DashboardShell({
         @keyframes slide-right {
           from { transform: translateX(-100%); }
           to { transform: translateX(0); }
+        }
+        .nav-item-link .nav-tooltip {
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-50%) translateX(6px);
+          transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+        }
+        .nav-item-link:hover .nav-tooltip {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(-50%) translateX(0);
         }
       `}</style>
     </div>
