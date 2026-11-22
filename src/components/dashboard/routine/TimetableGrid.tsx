@@ -50,8 +50,12 @@ export default function TimetableGrid({
       style={{
         borderRadius: "0.875rem",
         overflowX: "auto",
+        overflowY: "visible",
         border: "1px solid var(--border)",
         background: "var(--card)",
+        minWidth: 0,
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       <table style={{ width: "100%", minWidth: "850px", borderCollapse: "collapse", tableLayout: "fixed" }}>

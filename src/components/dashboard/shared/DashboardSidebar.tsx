@@ -67,6 +67,8 @@ export default function DashboardSidebar({
     <aside
       style={{
         width: isCollapsed ? "72px" : "250px",
+        minWidth: isCollapsed ? "72px" : "250px",
+        maxWidth: isCollapsed ? "72px" : "250px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -74,8 +76,9 @@ export default function DashboardSidebar({
         padding: isCollapsed ? "1.25rem 0.5rem" : "1.25rem 1rem",
         borderRight: "1px solid var(--border)",
         background: "var(--card)",
-        transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
         boxSizing: "border-box",
+        overflow: "hidden",
       }}
     >
       <div>

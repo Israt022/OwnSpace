@@ -43,6 +43,10 @@ export default function SidebarNavItem({
         color: isActive ? "var(--color-brand-500)" : "var(--muted-foreground)",
         backgroundColor: isActive ? "rgba(99, 102, 241, 0.1)" : "transparent",
         border: isActive ? "1px solid rgba(99, 102, 241, 0.2)" : "1px solid transparent",
+        overflow: "hidden",
+        minWidth: 0,
+        width: "100%",
+        boxSizing: "border-box",
       }}
       onMouseEnter={(e) => {
         if (!isActive) {
@@ -57,9 +61,13 @@ export default function SidebarNavItem({
         }
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: isCollapsed ? 0 : "0.75rem" }}>
-        <Icon size={18} strokeWidth={isActive ? 2.25 : 1.75} />
-        {!isCollapsed && <span>{label}</span>}
+      <div style={{ display: "flex", alignItems: "center", gap: isCollapsed ? 0 : "0.75rem", minWidth: 0, flexShrink: 0 }}>
+        <Icon size={18} strokeWidth={isActive ? 2.25 : 1.75} style={{ flexShrink: 0 }} />
+        {!isCollapsed && (
+          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {label}
+          </span>
+        )}
       </div>
 
       {badge !== undefined && !isCollapsed && (

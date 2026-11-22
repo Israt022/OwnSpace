@@ -87,7 +87,10 @@ export default function DashboardShell({
           overflowX: "hidden",
           flexShrink: 0,
           width: isCollapsed ? "72px" : "250px",
-          transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          minWidth: isCollapsed ? "72px" : "250px",
+          maxWidth: isCollapsed ? "72px" : "250px",
+          transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          position: "relative",
         }}
       >
         <DashboardSidebar
@@ -127,20 +130,27 @@ export default function DashboardShell({
           actions={actions}
         />
 
-        <main
+        {/* Scroll wrapper — fills remaining height, scrolls vertically */}
+        <div
           style={{
             flex: 1,
             minHeight: 0,
             overflowY: "auto",
-            padding: "1.75rem 1.5rem",
-            maxWidth: "1280px",
-            width: "100%",
-            margin: "0 auto",
-            boxSizing: "border-box",
+            overflowX: "hidden",
           }}
         >
-          {children}
-        </main>
+          <main
+            style={{
+              maxWidth: "1280px",
+              width: "100%",
+              margin: "0 auto",
+              padding: "1.75rem 1.5rem",
+              boxSizing: "border-box",
+            }}
+          >
+            {children}
+          </main>
+        </div>
       </div>
 
       <style>{`
