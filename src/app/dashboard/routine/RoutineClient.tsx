@@ -30,6 +30,7 @@ export default function RoutineClient({ user }: RoutineClientProps) {
     categoryFilter,
     setCategoryFilter,
     filteredEntries,
+    timetableEntries,
     createRoutine,
     updateRoutine,
     deleteRoutine,
@@ -79,8 +80,40 @@ export default function RoutineClient({ user }: RoutineClientProps) {
       />
 
       {loading ? (
-        <div style={{ padding: "4rem", textAlign: "center", color: "var(--muted-foreground)" }}>
-          Loading timetable…
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.75rem",
+            padding: "1rem 0",
+          }}
+        >
+          {/* Top bar skeleton */}
+          <div
+            style={{
+              height: "52px",
+              borderRadius: "0.75rem",
+              background: "var(--muted)",
+              opacity: 0.5,
+              animation: "pulse 1.5s ease-in-out infinite",
+            }}
+          />
+          {/* Grid skeleton */}
+          <div
+            style={{
+              height: "420px",
+              borderRadius: "0.875rem",
+              background: "var(--muted)",
+              opacity: 0.4,
+              animation: "pulse 1.5s ease-in-out infinite",
+            }}
+          />
+          <style>{`
+            @keyframes pulse {
+              0%, 100% { opacity: 0.4; }
+              50% { opacity: 0.65; }
+            }
+          `}</style>
         </div>
       ) : !activeRoutine ? (
         <RoutineTimetableEmpty
@@ -97,7 +130,7 @@ export default function RoutineClient({ user }: RoutineClientProps) {
         />
       ) : viewMode === "timetable" ? (
         <TimetableGrid
-          entries={filteredEntries}
+          entries={timetableEntries}
           dayStartOption={dayStartOption}
           onEditEntry={(entry) => {
             setEditingEntry(entry);

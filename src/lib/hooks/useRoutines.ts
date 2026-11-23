@@ -18,25 +18,34 @@ import {
 } from "../api/routine";
 import { getCurrentDayOfWeek } from "../constants/routine";
 
+// Keep routines + activeRoutineId in one state so they always update together in one render
+interface RoutineState {
+  routines: RoutineResponse[];
+  activeRoutineId: string | null;
+}
+
+function pickActiveId(list: RoutineResponse[], preferredId?: string | null): string | null {
+  if (preferredId && list.some((r) => r.id === preferredId)) return preferredId;
+  const def = list.find((r) => r.isDefault);
+  return def ? def.id : (list[0]?.id ?? null);
+}
+
 export function useRoutines() {
-  const [routines, setRoutines] = useState<RoutineResponse[]>([]);
-  const [activeRoutineId, setActiveRoutineId] = useState<string | null>(null);
+  const [state, setState] = useState<RoutineState>({ routines: [], activeRoutineId: null });
   const [loading, setLoading] = useState(true);
   const [selectedDay, setSelectedDay] = useState<DayOfWeek | "ALL">(() => getCurrentDayOfWeek());
   const [dayStartOption, setDayStartOption] = useState<"MONDAY" | "SATURDAY">("MONDAY");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
 
+  // Single loader — always sets routines + activeRoutineId atomically
   const loadData = useCallback(async (selectId?: string) => {
     try {
       const list = await fetchUserRoutines();
-      setRoutines(list);
-      setActiveRoutineId((prev) => {
-        if (selectId && list.some((r) => r.id === selectId)) return selectId;
-        if (prev && list.some((r) => r.id === prev)) return prev;
-        const defaultRoutine = list.find((r) => r.isDefault);
-        return defaultRoutine ? defaultRoutine.id : (list[0]?.id ?? null);
-      });
+      setState((prev) => ({
+        routines: list,
+        activeRoutineId: pickActiveId(list, selectId ?? prev.activeRoutineId),
+      }));
     } catch (err) {
       console.error("Failed to load routines:", err);
     } finally {
@@ -45,30 +54,20 @@ export function useRoutines() {
   }, []);
 
   useEffect(() => {
-    let ignore = false;
-    fetchUserRoutines()
-      .then((list) => {
-        if (!ignore) {
-          setRoutines(list);
-          const defaultRoutine = list.find((r) => r.isDefault);
-          setActiveRoutineId(defaultRoutine ? defaultRoutine.id : (list[0]?.id ?? null));
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (!ignore) {
-          console.error("Failed to load routines on mount:", err);
-          setLoading(false);
-        }
-      });
-    return () => {
-      ignore = true;
-    };
-  }, []);
+    loadData();
+  }, [loadData]);
 
-  const activeRoutine = useMemo(() => {
-    return routines.find((r) => r.id === activeRoutineId);
-  }, [routines, activeRoutineId]);
+  const { routines, activeRoutineId } = state;
+
+  const activeRoutine = useMemo(
+    () => routines.find((r) => r.id === activeRoutineId),
+    [routines, activeRoutineId]
+  );
+
+  // Allow RoutineClient to switch active routine without re-fetching
+  const setActiveRoutineId = useCallback((id: string) => {
+    setState((prev) => ({ ...prev, activeRoutineId: id }));
+  }, []);
 
   const filteredEntries = useMemo(() => {
     if (!activeRoutine) return [];
@@ -83,6 +82,20 @@ export function useRoutines() {
       return matchDay && matchCat && matchSearch;
     });
   }, [activeRoutine, selectedDay, categoryFilter, searchQuery]);
+
+  // Timetable view needs ALL days — only filter by search & category, NOT by selected day
+  const timetableEntries = useMemo(() => {
+    if (!activeRoutine) return [];
+    return activeRoutine.entries.filter((entry) => {
+      const matchCat = categoryFilter === "All" || entry.category === categoryFilter;
+      const matchSearch =
+        !searchQuery.trim() ||
+        entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (entry.description && entry.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (entry.location && entry.location.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchCat && matchSearch;
+    });
+  }, [activeRoutine, categoryFilter, searchQuery]);
 
   const handleCreateRoutine = async (input: CreateRoutineInput) => {
     const res = await createRoutineApi(input);
@@ -140,6 +153,7 @@ export function useRoutines() {
     categoryFilter,
     setCategoryFilter,
     filteredEntries,
+    timetableEntries,
     refresh: loadData,
     createRoutine: handleCreateRoutine,
     updateRoutine: handleUpdateRoutine,
