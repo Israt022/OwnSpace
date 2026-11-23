@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus, Edit2, Trash2, LayoutGrid, CalendarDays } from "lucide-react";
+import { Plus, Edit2, Trash2, LayoutGrid, CalendarDays, Clock } from "lucide-react";
 import { RoutineResponse } from "@server/types";
 import RoutineListSwitcher from "./RoutineListSwitcher";
 
@@ -16,6 +16,8 @@ interface RoutineTopBarProps {
   onToggleDayStart: (opt: "MONDAY" | "SATURDAY") => void;
   viewMode: "timetable" | "day";
   onToggleViewMode: (mode: "timetable" | "day") => void;
+  showFullDay: boolean;
+  onToggleFullDay: (val: boolean) => void;
 }
 
 export default function RoutineTopBar({
@@ -30,6 +32,8 @@ export default function RoutineTopBar({
   onToggleDayStart,
   viewMode,
   onToggleViewMode,
+  showFullDay,
+  onToggleFullDay,
 }: RoutineTopBarProps) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "1.25rem" }}>
@@ -118,6 +122,30 @@ export default function RoutineTopBar({
             >
               {dayStartOption === "MONDAY" ? "Mon–Sun" : "Sat–Fri"}
             </button>
+
+            {/* Full day / compact toggle — only visible in timetable view */}
+            {viewMode === "timetable" && (
+              <button
+                onClick={() => onToggleFullDay(!showFullDay)}
+                title={showFullDay ? "Show compact range (entry times only)" : "Show full day (12 AM – 11 PM)"}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.3rem",
+                  fontSize: "0.75rem",
+                  padding: "0.25rem 0.5rem",
+                  borderRadius: "0.375rem",
+                  background: showFullDay ? "rgba(99,102,241,0.12)" : "var(--muted)",
+                  border: showFullDay ? "1px solid rgba(99,102,241,0.4)" : "1px solid var(--border)",
+                  color: showFullDay ? "var(--color-brand-500)" : "var(--muted-foreground)",
+                  cursor: "pointer",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                <Clock size={12} />
+                {showFullDay ? "Full Day" : "Compact"}
+              </button>
+            )}
 
             <div style={{ display: "flex", background: "var(--muted)", borderRadius: "0.375rem", padding: "0.15rem" }}>
               <button

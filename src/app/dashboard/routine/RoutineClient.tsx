@@ -40,6 +40,7 @@ export default function RoutineClient({ user }: RoutineClientProps) {
   } = useRoutines();
 
   const [viewMode, setViewMode] = useState<"timetable" | "day">("timetable");
+  const [showFullDay, setShowFullDay] = useState(false);
   const [isRoutineModalOpen, setIsRoutineModalOpen] = useState(false);
   const [editingRoutine, setEditingRoutine] = useState<RoutineResponse | null>(null);
 
@@ -77,6 +78,8 @@ export default function RoutineClient({ user }: RoutineClientProps) {
         onToggleDayStart={setDayStartOption}
         viewMode={viewMode}
         onToggleViewMode={setViewMode}
+        showFullDay={showFullDay}
+        onToggleFullDay={setShowFullDay}
       />
 
       {loading ? (

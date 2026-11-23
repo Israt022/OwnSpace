@@ -17,6 +17,7 @@ import TimetableHeaderRow from "./TimetableHeaderRow";
 interface TimetableGridProps {
   entries: RoutineEntryResponse[];
   dayStartOption: "MONDAY" | "SATURDAY";
+  showFullDay?: boolean;
   onEditEntry: (entry: RoutineEntryResponse) => void;
   onDeleteEntry: (id: string) => void;
   onOpenAddEntryWithSlot: (day: DayOfWeek, startTime: string) => void;
@@ -25,6 +26,7 @@ interface TimetableGridProps {
 export default function TimetableGrid({
   entries,
   dayStartOption,
+  showFullDay = false,
   onEditEntry,
   onDeleteEntry,
   onOpenAddEntryWithSlot,
@@ -33,16 +35,25 @@ export default function TimetableGrid({
   const days: DayOption[] = dayStartOption === "SATURDAY" ? DAYS_SATURDAY_START : DAYS_MONDAY_START;
 
   const hours = useMemo(() => {
-    let minH = 8;
-    let maxH = 17;
+    if (showFullDay) return getHoursRange(0, 23);
+
+    if (entries.length === 0) return getHoursRange(8, 18);
+
+    // Derive range from actual entries — no hard caps, full 0–23 support
+    let minH = 23;
+    let maxH = 0;
     entries.forEach((e) => {
       const sH = parseInt(e.startTime.split(":")[0], 10);
       const eH = parseInt(e.endTime.split(":")[0], 10);
-      if (sH < minH) minH = Math.max(6, sH);
-      if (eH > maxH) maxH = Math.min(22, eH + 1);
+      if (sH < minH) minH = sH;
+      if (eH > maxH) maxH = eH;
     });
-    return getHoursRange(minH, maxH);
-  }, [entries]);
+
+    // 1-hour buffer above and below so the grid breathes
+    const start = Math.max(0, minH - 1);
+    const end = Math.min(23, maxH + 1);
+    return getHoursRange(start, end);
+  }, [entries, showFullDay]);
 
   return (
     <div
